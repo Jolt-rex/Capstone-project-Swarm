@@ -10,6 +10,7 @@ void Graphics::simulate()
     std::cout << "Running simulation" << std::endl;
 
     this->loadBackgroundImage();
+    this->renderFrame();
 }
 
 void Graphics::loadBackgroundImage()
@@ -18,8 +19,23 @@ void Graphics::loadBackgroundImage()
     cv::namedWindow(_windowName, cv::WINDOW_NORMAL);
 
     cv::Mat background = cv::imread("../img/" + _mapName + ".png");
-    _imageStack.emplace_back(background);
+    _imageStack.emplace_back(background);           // original background to re-use with overlay
+    _imageStack.emplace_back(background.clone());   // create deep copy of original bg
+    _imageStack.emplace_back(background.clone());   // another deep copy of original for final image to be displayed
+}
 
-    cv::imshow(_windowName, _imageStack.at(0));
+void Graphics::renderFrame() 
+{
+    // reset elements [1] and [2] to original image
+    _imageStack[1] = _imageStack[0].clone();
+    _imageStack[2] = _imageStack[0].clone();
 
+    // create entities to be overlaid
+
+
+    // display the background and overlay image
+    float opacity = 0.85;
+    cv::addWeighted(_imageStack[1], opacity, _imageStack[0], 1.0 - opacity, 0, _imageStack[2]);
+    cv::imshow(_windowName, _imageStack[2]);
+    cv::waitKey(0);
 }

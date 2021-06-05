@@ -19,9 +19,15 @@ class Graphics
 
         void simulate();
         void loadBackgroundImage();
+        void renderFrame();
 
     private:
         std::vector<std::shared_ptr<Entity>> _entities;
+
+        // _imageStack elements are: 
+        // [0] -> original image
+        // [1] -> overlay entities
+        // [2] -> [0] and [1] combined for final render to screen
         std::vector<cv::Mat> _imageStack;
 
         std::string _mapName;
