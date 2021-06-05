@@ -14,7 +14,7 @@ class Graphics
         //constructor / destructor
 
         // getters / setters
-        void setBackgroundImage(std::string filename) { _backgroundImage = filename; }
+        void setMapName(std::string mapName) { _mapName = mapName; }
         void setEntities(std::vector<std::shared_ptr<Entity>> &entities) { _entities = entities; }
 
         void simulate();
@@ -22,7 +22,9 @@ class Graphics
 
     private:
         std::vector<std::shared_ptr<Entity>> _entities;
-        std::string _backgroundImage;
+        std::vector<cv::Mat> _imageStack;
+
+        std::string _mapName;
         std::string _windowName;
 };
 

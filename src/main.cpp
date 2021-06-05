@@ -13,11 +13,10 @@ int main(int argc, char** argv) {
     //     return 0;
     // }    
       
-    //std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
+    std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
 
-    Graphics *graphics = new Graphics();
-    graphics->setBackgroundImage("brisbane");
-    //graphics->simulate();
+    graphics->setMapName("brisbane");
+    graphics->simulate();
 
     return 0;
 }
