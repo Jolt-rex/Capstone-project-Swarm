@@ -4,6 +4,9 @@
 // Base class for all objects on the map
 class Entity
 {
+    public:
+        void setLocation(double &x, double &y);
+
     private:
         int _x;
         int _y;
