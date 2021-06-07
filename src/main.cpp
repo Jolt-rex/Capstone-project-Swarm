@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 
+#include "EntityModel.h"
 #include "Graphics.h"
 
 // Main function entry point
@@ -12,7 +13,10 @@ int main(int argc, char** argv) {
     //     std::cout << "Options are Brisbane" << std::endl;
     //     return 0;
     // }    
-      
+
+    // load entities from xml file into entities vector of shared ptrs
+    EntityModel entityModel = EntityModel("brisbane");
+
     std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
 
     graphics->setMapName("brisbane");
