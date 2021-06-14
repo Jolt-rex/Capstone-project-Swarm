@@ -22,13 +22,13 @@ Model::Model(std::string map)
         if(id > 0) {
             if(node.node().attribute("spawn")) {
                 std::cout << "Generating spawn for id: " << id << std::endl;
-                Entity new_entity = Entity(id, x, y);
-                _entities.emplace_back(&new_entity);
+                std::shared_ptr<Entity> new_entity = std::make_shared<Entity>(id, x, y);
+                _entities.emplace_back(new_entity);
             }
             else {
                 std::cout << "Generating intersection for id: " << id << std::endl;
-                Entity new_entity = Entity(id, x, y);
-                _entities.emplace_back(&new_entity);
+                std::shared_ptr<Entity> new_entity = std::make_shared<Entity>(id, x, y);
+                _entities.emplace_back(new_entity);
             }    
             continue;
         }
@@ -36,15 +36,11 @@ Model::Model(std::string map)
         // goal node
         if(id == 0) {
             std::cout << "Generating goal entity for id: " << id << std::endl;
-            Entity new_entity = Entity(id, x, y);
+            std::shared_ptr<Entity> new_entity = std::make_shared<Entity>(id, x, y);
             // TODO: make this a goal object
-            _entities.emplace_back(&new_entity);
+            _entities.emplace_back(new_entity);
             continue;
         }
-
-
-
-        std::cout << "x= " << x << " y= " << y << std::endl;
     }
 }
 

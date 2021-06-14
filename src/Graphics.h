@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "Entity.h"
+#include "Model.h"
 #include <opencv2/core.hpp>
 
 class Graphics
@@ -15,15 +16,15 @@ class Graphics
 
         // getters / setters
         void setMapName(std::string mapName) { _mapName = mapName; }
-        void setEntities(std::vector<std::shared_ptr<Entity>> &entities) { _entities = entities; }
+        void setModel(std::shared_ptr<Model> &model) { _model = model; }
 
         void simulate();
         void loadBackgroundImage();
         void renderFrame();
 
     private:
-        std::vector<std::shared_ptr<Entity>> _entities;
-
+        std::shared_ptr<Model> _model;
+        
         // _imageStack elements are: 
         // [0] -> original image
         // [1] -> overlay entities

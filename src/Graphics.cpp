@@ -41,6 +41,19 @@ void Graphics::renderFrame()
     cv::Scalar sc(219, 3, 252);
     cv::circle(_imageStack[1], cv::Point2d(985, 481), 5, sc, -1);
 
+    // create entities to be overlaid from _model data
+    for(const auto &entity : _model->getEntities()) {
+        std::cout << "Entity id= " << entity->getId() << " x= " << entity->getX() << " y= " << entity->getY() << std::endl;
+
+        // if it is the goal intersection, render a pink circle
+        if(entity->getId() == 0) {
+            cv::circle(_imageStack[1], cv::Point2d(entity->getX(), entity->getY()), 5, cv::Scalar(219, 3, 252), -1);
+            continue;
+        }
+
+        cv::circle(_imageStack[1], cv::Point2d(entity->getX(), entity->getY()), 5, cv::Scalar(0, 255, 0), -1);
+    }
+
 
     // display the background and overlay image
     float opacity = 0.85;

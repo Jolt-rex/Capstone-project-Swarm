@@ -7,6 +7,10 @@ class Entity
     public:
         Entity(int id, int x, int y);
         void setLocation(int &id, int &x, int &y);
+        int getId() { return _id; }
+        int getX() { return _x; }
+        int getY() { return _y; }
+
 
     protected:
         int _id;
