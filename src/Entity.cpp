@@ -1,4 +1,4 @@
-#include "entity.h"
+#include "Entity.h"
 
 void Entity::setLocation(double &x, double &y)
 {

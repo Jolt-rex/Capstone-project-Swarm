@@ -3,7 +3,7 @@
 #include <vector>
 #include <memory>
 
-#include "EntityModel.h"
+#include "Model.h"
 #include "Graphics.h"
 
 // Main function entry point
@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
     // }    
 
     // load entities from xml file into entities vector of shared ptrs
-    EntityModel entityModel = EntityModel("brisbane");
+    Model model = Model("brisbane");
 
     std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
 

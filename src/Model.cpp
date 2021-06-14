@@ -1,10 +1,10 @@
 #include <string>
 #include <iostream>
-#include "EntityModel.h"
-#include "libs/pugiconfig.hpp"
+#include "Model.h"
+#include "libs/pugixml.hpp"
 
 
-EntityModel::EntityModel(std::string map)
+Model::Model(std::string map)
 {
     std::string filename("../maps/" + map + ".xml");
     pugi::xml_document input;
@@ -12,10 +12,10 @@ EntityModel::EntityModel(std::string map)
         std::cerr << "Unable to load input file, please check map name is correct." << std::endl;
     }
 
-    std::cout << input.child("intersection") << std::endl;
+    std::cout << input.child("intersection").attribute("X").value() << std::endl;
 }
 
-std::vector<std::shared_ptr<Entity> > &EntityModel::getEntities()
+std::vector<std::shared_ptr<Entity> > &Model::getEntities()
 {
     return _entities;
 }

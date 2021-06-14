@@ -1,18 +1,17 @@
-#ifndef ENTITY_MODEL_H
-#define ENTITY_MODEL_H
+#ifndef MODEL_H
+#define MODEL_H
 
 #include <iostream>
 #include <vector>
 #include <memory>
 #include <string>
-#include "entity.h"
-#include "libs/pugixml.hpp"
+#include "Entity.h"
 
-class EntityModel
+class Model
 {
     public:
         // constructor
-        EntityModel(std::string map);
+        Model(std::string map);
 
         // getter / setters
         std::vector<std::shared_ptr<Entity> > &getEntities();
