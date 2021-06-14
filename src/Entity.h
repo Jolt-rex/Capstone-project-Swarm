@@ -5,12 +5,13 @@
 class Entity
 {
     public:
-        void setLocation(double &x, double &y);
+        Entity(int id, int x, int y);
+        void setLocation(int &id, int &x, int &y);
 
     protected:
+        int _id;
         int _x;
         int _y;
-
 };
 
 #endif

@@ -1,3 +1,7 @@
-<goal id="1" x="985" y="481"></goal>
+# goal intersection is id="0"
+# intersections with a spawn element will spawn enemy entities
+
+<intersection id="0" x="985" y="481"></intersection>
+
 <intersection id="2" x="548" y="253"></intersection>
-<intersection id="3" x="600" y="323"></intersection>
+<intersection id="3" x="600" y="323" spawn="true"></intersection>
