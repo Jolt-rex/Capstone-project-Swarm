@@ -7,7 +7,7 @@ class Entity
     public:
         void setLocation(double &x, double &y);
 
-    private:
+    protected:
         int _x;
         int _y;
 

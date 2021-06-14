@@ -1,3 +1,3 @@
-<goal><X>985</X><Y>481</Y></goal>
-<intersection><X>548</X><Y>253</Y></intersection>
-<intersection><X>600</X><Y>323</Y></intersection>
+<goal id="1" x="985" y="481"></goal>
+<intersection id="2" x="548" y="253"></intersection>
+<intersection id="3" x="600" y="323"></intersection>

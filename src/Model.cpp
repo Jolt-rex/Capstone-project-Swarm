@@ -12,7 +12,13 @@ Model::Model(std::string map)
         std::cerr << "Unable to load input file, please check map name is correct." << std::endl;
     }
 
-    std::cout << input.child("intersection").attribute("X").value() << std::endl;
+    for(const auto &node : input.select_nodes("/intersection")) {
+        int id = std::stoi(node.node().attribute("id").as_string());
+        int x = std::stoi(node.node().attribute("x").as_string());
+        int y = std::stoi(node.node().attribute("y").as_string());
+        
+        std::cout << "x= " << x << " y= " << y << std::endl;
+    }
 }
 
 std::vector<std::shared_ptr<Entity> > &Model::getEntities()
