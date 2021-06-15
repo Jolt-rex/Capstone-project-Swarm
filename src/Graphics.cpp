@@ -59,6 +59,16 @@ void Graphics::renderFrame()
         }
     }
 
+    std::cout << "Path size: " << _model->getPaths().size() << std::endl;
+    for(const auto &path : _model->getPaths()) {
+        std::shared_ptr<Intersection> first = path->getFirst();
+        std::shared_ptr<Intersection> second = path->getSecond();
+
+        std::cout << "Point from " << first->getX() << " " << first->getY() << " to " << second->getX() << " " << second->getY() << std::endl;
+
+        cv::line(_imageStack[1], cv::Point2d(first->getX(), first->getY()), cv::Point2d(second->getX(), second->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
+    }
+
 
     // display the background and overlay image
     float opacity = 0.85;

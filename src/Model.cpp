@@ -48,6 +48,7 @@ Model::Model(std::string map)
         std::cout << "Adding intersections to path" << std::endl;
         newPath->addFirst(firstIntersection);
         newPath->addSecond(secondIntersection);
+        _paths.emplace_back(newPath);
     }
 }
 
