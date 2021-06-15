@@ -2,14 +2,15 @@
 # intersections with a spawn element will spawn enemy entities
 
 <intersection id="0" x="985" y="481"></intersection>
+<intersection id="1" x="547" y="250"></intersection>
+<intersection id="2" x="605" y="329" spawn="true"></intersection>
+<intersection id="3" x="547" y="250"></intersection>
+<intersection id="4" x="574" y="237"></intersection>
+<intersection id="5" x="640" y="215"></intersection>
+<intersection id="6" x="653" y="293"></intersection>
+<intersection id="7" x="692" y="222"></intersection>
+<intersection id="8" x="683" y="351"></intersection>
 
-<intersection id="2" x="547" y="250"></intersection>
-<intersection id="3" x="605" y="329" spawn="true"></intersection>
-<intersection id="4" x="547" y="250"></intersection>
-<intersection id="5" x="574" y="237"></intersection>
-<intersection id="6" x="640" y="215"></intersection>
-<intersection id="7" x="653" y="293"></intersection>
-<intersection id="8" x="692" y="222"></intersection>
-<intersection id="9" x="683" y="351"></intersection>
-
+# paths link two intersections together by their id
 <path id="1" first="1" second="2"></path>
+<path id="2" first="2" second="3"></path>

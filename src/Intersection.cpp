@@ -10,3 +10,8 @@ Intersection::Intersection(int id, int x, int y, bool isGoal, bool isSpawnPoint)
     _goal = isGoal;
     _spawnPoint = isSpawnPoint;
 }
+
+void Intersection::addPath(std::shared_ptr<Path> path)
+{
+    _paths.push_back(path);
+}

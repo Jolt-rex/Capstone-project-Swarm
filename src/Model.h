@@ -15,8 +15,8 @@ class Model
         Model(std::string map);
 
         // getter / setters
-        std::vector<std::shared_ptr<Intersection>> &getIntersections();
-        std::vector<std::shared_ptr<Path>> &getPaths();
+        std::vector<std::shared_ptr<Intersection>> getIntersections();
+        std::vector<std::shared_ptr<Path>> getPaths();
 
     private:
         // private members

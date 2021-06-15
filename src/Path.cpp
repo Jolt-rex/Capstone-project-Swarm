@@ -9,7 +9,16 @@ Path::Path()
     std::cout << "Path Constructor" << std::endl;
 }
 
-void Path::addIntersection(std::shared_ptr<int> intersection)
+// functions to link the path to the intersection
+// then back link the intersection to the path
+void Path::addFirst(std::shared_ptr<Intersection> intersection)
 {
-    _intersections.emplace_back(intersection);
+    _first = intersection;
+    intersection->addPath(get_shared_this());
+}   
+
+void Path::addSecond(std::shared_ptr<Intersection> intersection)
+{
+    _second = intersection;
+    intersection->addPath(get_shared_this());
 }
