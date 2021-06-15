@@ -2,12 +2,12 @@
 
 Entity::Entity(int id, int x, int y)
 {
-    this->setLocation(id, x, y);
+    _id = id;
+    this->setLocation(x, y);
 }
 
-void Entity::setLocation(int &id, int &x, int &y)
+void Entity::setLocation(int x, int y)
 {
-    _id = id;
     _x = x;
     _y = y;
 }

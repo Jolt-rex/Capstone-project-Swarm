@@ -16,7 +16,7 @@ class Graphics
 
         // getters / setters
         void setMapName(std::string mapName) { _mapName = mapName; }
-        void setModel(std::shared_ptr<Model> &model) { _model = model; }
+        void setModel(std::shared_ptr<Model> model) { _model = model; }
 
         void simulate();
         void loadBackgroundImage();

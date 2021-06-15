@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Model.h"
 #include "Entity.h"
+#include "Intersection.h"
 #include "libs/pugixml.hpp"
 
 
@@ -19,42 +20,19 @@ Model::Model(std::string map)
         int x = std::stoi(node.node().attribute("x").as_string());
         int y = std::stoi(node.node().attribute("y").as_string());
         
-        if(id > 0) {
-            if(node.node().attribute("spawn")) {
-                std::cout << "Generating spawn for id: " << id << std::endl;
-                std::shared_ptr<Entity> new_entity = std::make_shared<Entity>(id, x, y);
-                _entities.emplace_back(new_entity);
-            }
-            else {
-                std::cout << "Generating intersection for id: " << id << std::endl;
-                std::shared_ptr<Entity> new_entity = std::make_shared<Entity>(id, x, y);
-                _entities.emplace_back(new_entity);
-            }    
-            continue;
-        }
-        
-        // goal node
-        if(id == 0) {
-            std::cout << "Generating goal entity for id: " << id << std::endl;
-            std::shared_ptr<Entity> new_entity = std::make_shared<Entity>(id, x, y);
-            // TODO: make this a goal object
-            _entities.emplace_back(new_entity);
-            continue;
-        }
+        bool isGoal = id == 0 ? true : false;
+        bool isSpawnPoint = node.node().attribute("spawn") ? true : false;
+
+        _intersections.emplace_back(std::make_shared<Intersection>(id, x, y, isGoal, isSpawnPoint));
     }
 }
 
-std::vector<std::shared_ptr<Entity> > &Model::getEntities()
+std::vector<std::shared_ptr<Intersection> > &Model::getIntersections()
 {
-    return _entities;
+    return _intersections;
 }
 
-/*
-pugi::xml_document doc;
-
-pugi::xml_parse_result result = doc.load_file("tree.xml");
-
-std::cout << "Load result: " << result.description() 
-<< ", mesh name: " 
-<< doc.child("mesh").attribute("name").value() << std::endl;
-*/
+std::vector<std::shared_ptr<Path> > &Model::getPaths()
+{
+    return _paths;
+}

@@ -4,6 +4,7 @@
 #include <opencv2/highgui.hpp>
 
 #include "Graphics.h"
+#include "Intersection.h"
 
 void mouseHandler(int event, int x, int y, int, void*)
 {
@@ -37,21 +38,25 @@ void Graphics::renderFrame()
     _imageStack[1] = _imageStack[0].clone();
     _imageStack[2] = _imageStack[0].clone();
 
-    // create entities to be overlaid
-    cv::Scalar sc(219, 3, 252);
-    cv::circle(_imageStack[1], cv::Point2d(985, 481), 5, sc, -1);
-
     // create entities to be overlaid from _model data
-    for(const auto &entity : _model->getEntities()) {
-        std::cout << "Entity id= " << entity->getId() << " x= " << entity->getX() << " y= " << entity->getY() << std::endl;
+    for(const auto &intersection : _model->getIntersections()) {
+        int id = intersection->getId();
+        int x = intersection->getX();
+        int y = intersection->getY();
+
+        std::cout << "Entity id= " << id << " x= " << x << " y= " << y << std::endl;
 
         // if it is the goal intersection, render a pink circle
-        if(entity->getId() == 0) {
-            cv::circle(_imageStack[1], cv::Point2d(entity->getX(), entity->getY()), 5, cv::Scalar(219, 3, 252), -1);
-            continue;
+        if(intersection->isGoal()) {
+            cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(219, 3, 252), -1);
         }
-
-        cv::circle(_imageStack[1], cv::Point2d(entity->getX(), entity->getY()), 5, cv::Scalar(0, 255, 0), -1);
+        // render a red circle for a spawn point
+        else if(intersection->isSpawnPoint()) {
+            cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 0, 255), -1);
+        } else {
+        // render a green circle for an intersection
+            cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 255, 0), -1);
+        }
     }
 
 
