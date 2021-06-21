@@ -1,24 +1,24 @@
-# goal intersection is id="0"
-# intersections with a spawn element will spawn enemy entities
+# goal node is id="0"
+# nodes with a spawn element will spawn enemy entities
 
-<intersection id="0" x="985" y="481"></intersection>
-<intersection id="1" x="547" y="250"></intersection>
-<intersection id="2" x="605" y="329" spawn="true"></intersection>
-<intersection id="3" x="547" y="250"></intersection>
-<intersection id="4" x="574" y="237"></intersection>
-<intersection id="5" x="640" y="215"></intersection>
-<intersection id="6" x="653" y="293"></intersection>
-<intersection id="7" x="692" y="222"></intersection>
-<intersection id="8" x="683" y="351"></intersection>
-<intersection id="9" x="730" y="264"></intersection>
-<intersection id="10" x="803" y="334"></intersection>
-<intersection id="11" x="823" y="358"></intersection>
-<intersection id="12" x="869" y="424"></intersection>
-<intersection id="13" x="914" y="496"></intersection>
-<intersection id="14" x="903" y="399"></intersection>
-<intersection id="15" x="956" y="459"></intersection>
+<node id="0" x="985" y="481"></node>
+<node id="1" x="547" y="250"></node>
+<node id="2" x="605" y="329" spawn="true"></node>
+<node id="3" x="547" y="250"></node>
+<node id="4" x="574" y="237"></node>
+<node id="5" x="640" y="215"></node>
+<node id="6" x="653" y="293"></node>
+<node id="7" x="692" y="222"></node>
+<node id="8" x="683" y="351"></node>
+<node id="9" x="730" y="264"></node>
+<node id="10" x="803" y="334"></node>
+<node id="11" x="823" y="358"></node>
+<node id="12" x="869" y="424"></node>
+<node id="13" x="914" y="496"></node>
+<node id="14" x="903" y="399"></node>
+<node id="15" x="956" y="459"></node>
 
-# paths link two intersections together by their id
+# paths link two nodes together by their id
 <path id="1" first="1" second="2"></path>
 <path id="2" first="1" second="4"></path>
 <path id="3" first="4" second="5"></path>

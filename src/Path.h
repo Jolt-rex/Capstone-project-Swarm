@@ -3,10 +3,10 @@
 
 #include <vector>
 #include <memory>
-#include "Intersection.h"
+#include "Node.h"
 
 // forward declaration
-class Intersection;
+class Node;
 
 // A path between two intersections which are stored in a vector
 class Path : public std::enable_shared_from_this<Path> {
@@ -15,17 +15,17 @@ class Path : public std::enable_shared_from_this<Path> {
     
         // getters / setters
         double getLenth() { return _length; }
-        void addFirst(std::shared_ptr<Intersection> intersection);
-        void addSecond(std::shared_ptr<Intersection> intersection);
-        std::shared_ptr<Intersection> getFirst() { return _first; }
-        std::shared_ptr<Intersection> getSecond() { return _second; }
+        void addFirst(std::shared_ptr<Node> node);
+        void addSecond(std::shared_ptr<Node> node);
+        std::shared_ptr<Node> getFirst() { return _first; }
+        std::shared_ptr<Node> getSecond() { return _second; }
 
         std::shared_ptr<Path> get_shared_this() { return shared_from_this(); }
 
     private:
         float _length;
-        std::shared_ptr<Intersection> _first;
-        std::shared_ptr<Intersection> _second;
+        std::shared_ptr<Node> _first;
+        std::shared_ptr<Node> _second;
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef INTERSECTION_H
-#define INTERSECTION_H
+#ifndef NODE_H
+#define NODE_H
 
 #include <vector>
 #include <memory>
@@ -9,12 +9,12 @@
 // forward declaration
 class Path;
 
-// Intersection class holds inherited data from Entity(id, x, y) values, 
+// Node class holds inherited data from Entity(id, x, y) values, 
 // and also defines if it is a goal or a spawn point
-class Intersection : public Entity
+class Node : public Entity
 {
     public:
-        Intersection(int id, int x, int y, bool isGoal, bool isSpawnPoint);
+        Node(int id, int x, int y, bool isGoal, bool isSpawnPoint);
         bool isGoal() const { return _goal; }
         bool isSpawnPoint() const { return _spawnPoint; }
         void addPath(std::shared_ptr<Path> path);

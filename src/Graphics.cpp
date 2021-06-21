@@ -4,7 +4,7 @@
 #include <opencv2/highgui.hpp>
 
 #include "Graphics.h"
-#include "Intersection.h"
+#include "Node.h"
 
 void mouseHandler(int event, int x, int y, int, void*)
 {
@@ -39,30 +39,30 @@ void Graphics::renderFrame()
     _imageStack[2] = _imageStack[0].clone();
 
     // create entities to be overlaid from _model data
-    for(const auto &intersection : _model->getIntersections()) {
-        int id = intersection->getId();
-        int x = intersection->getX();
-        int y = intersection->getY();
+    for(const auto &node : _model->getNodes()) {
+        int id = node->getId();
+        int x = node->getX();
+        int y = node->getY();
 
         //std::cout << "Entity id= " << id << " x= " << x << " y= " << y << std::endl;
 
-        // if it is the goal intersection, render a pink circle
-        if(intersection->isGoal()) {
+        // if it is the goal node, render a pink circle
+        if(node->isGoal()) {
             cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(219, 3, 252), -1);
         }
         // render a red circle for a spawn point
-        else if(intersection->isSpawnPoint()) {
+        else if(node->isSpawnPoint()) {
             cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 0, 255), -1);
         } else {
-        // render a green circle for an intersection
+        // render a green circle for an node
             cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 255, 0), -1);
         }
     }
 
     std::cout << "Path size: " << _model->getPaths().size() << std::endl;
     for(const auto &path : _model->getPaths()) {
-        std::shared_ptr<Intersection> first = path->getFirst();
-        std::shared_ptr<Intersection> second = path->getSecond();
+        std::shared_ptr<Node> first = path->getFirst();
+        std::shared_ptr<Node> second = path->getSecond();
 
         //std::cout << "Point from " << first->getX() << " " << first->getY() << " to " << second->getX() << " " << second->getY() << std::endl;
 

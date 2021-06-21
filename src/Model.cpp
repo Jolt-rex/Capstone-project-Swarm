@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Model.h"
 #include "Entity.h"
-#include "Intersection.h"
+#include "Node.h"
 #include "libs/pugixml.hpp"
 
 
@@ -16,7 +16,7 @@ Model::Model(std::string map)
     }
 
     // load intersections
-    for(const auto &node : input.select_nodes("/intersection")) {
+    for(const auto &node : input.select_nodes("/node")) {
         int id = std::stoi(node.node().attribute("id").as_string());
         int x = std::stoi(node.node().attribute("x").as_string());
         int y = std::stoi(node.node().attribute("y").as_string());
@@ -24,7 +24,7 @@ Model::Model(std::string map)
         bool isGoal = id == 0 ? true : false;
         bool isSpawnPoint = node.node().attribute("spawn") ? true : false;
 
-        _intersections.emplace_back(std::make_shared<Intersection>(id, x, y, isGoal, isSpawnPoint));
+        _nodes.emplace_back(std::make_shared<Node>(id, x, y, isGoal, isSpawnPoint));
     }
 
     // load paths
@@ -37,24 +37,24 @@ Model::Model(std::string map)
         std::shared_ptr<Path> newPath = std::make_shared<Path>();
 
         // find the intersections defined by the path
-        std::shared_ptr<Intersection> firstIntersection, secondIntersection;
-        for(const auto &intersection : _intersections) {
-            if(intersection->getId() == first)
-                firstIntersection = intersection;
-            if(intersection->getId() == second)
-                secondIntersection = intersection;
+        std::shared_ptr<Node> firstNode, secondNode;
+        for(const auto &node : _nodes) {
+            if(node->getId() == first)
+                firstNode = node;
+            if(node->getId() == second)
+                secondNode = node;
         }
 
         //std::cout << "Adding intersections to path" << std::endl;
-        newPath->addFirst(firstIntersection);
-        newPath->addSecond(secondIntersection);
+        newPath->addFirst(firstNode);
+        newPath->addSecond(secondNode);
         _paths.emplace_back(newPath);
     }
 }
 
-std::vector<std::shared_ptr<Intersection> > Model::getIntersections()
+std::vector<std::shared_ptr<Node> > Model::getNodes()
 {
-    return _intersections;
+    return _nodes;
 }
 
 std::vector<std::shared_ptr<Path> > Model::getPaths()
