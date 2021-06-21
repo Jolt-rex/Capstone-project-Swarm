@@ -6,7 +6,7 @@
 
 Path::Path()
 {
-    std::cout << "Path Constructor" << std::endl;
+    //std::cout << "Path Constructor" << std::endl;
 }
 
 // functions to link the path to the intersection

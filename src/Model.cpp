@@ -45,7 +45,7 @@ Model::Model(std::string map)
                 secondIntersection = intersection;
         }
 
-        std::cout << "Adding intersections to path" << std::endl;
+        //std::cout << "Adding intersections to path" << std::endl;
         newPath->addFirst(firstIntersection);
         newPath->addSecond(secondIntersection);
         _paths.emplace_back(newPath);

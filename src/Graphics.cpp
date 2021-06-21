@@ -44,7 +44,7 @@ void Graphics::renderFrame()
         int x = intersection->getX();
         int y = intersection->getY();
 
-        std::cout << "Entity id= " << id << " x= " << x << " y= " << y << std::endl;
+        //std::cout << "Entity id= " << id << " x= " << x << " y= " << y << std::endl;
 
         // if it is the goal intersection, render a pink circle
         if(intersection->isGoal()) {
@@ -64,7 +64,7 @@ void Graphics::renderFrame()
         std::shared_ptr<Intersection> first = path->getFirst();
         std::shared_ptr<Intersection> second = path->getSecond();
 
-        std::cout << "Point from " << first->getX() << " " << first->getY() << " to " << second->getX() << " " << second->getY() << std::endl;
+        //std::cout << "Point from " << first->getX() << " " << first->getY() << " to " << second->getX() << " " << second->getY() << std::endl;
 
         cv::line(_imageStack[1], cv::Point2d(first->getX(), first->getY()), cv::Point2d(second->getX(), second->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
     }
