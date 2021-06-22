@@ -22,7 +22,8 @@ std::vector<std::shared_ptr<Node>> Node::GetConnected() const
     return _connectedNodes;
 }
 
-double Node::CalculateHValue(std::shared_ptr<Node> goal)
+double Node::Distance(std::shared_ptr<Node> node)
 {
-    return std::sqrt(std::pow((_x - goal->getX()), 2) + std::pow((_y - goal->getY()), 2));
+    return std::sqrt(std::pow((_x - node->getX()), 2) + std::pow((_y - node->getY()), 2));
 }
+

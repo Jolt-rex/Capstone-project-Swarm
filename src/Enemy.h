@@ -14,9 +14,6 @@ class Enemy : public Entity
 
         void ConstructPath();
         
-        std::shared_ptr<Node> NextNode();
-        
-
     private:
         int _speed;
         float _distance = 0.0f;

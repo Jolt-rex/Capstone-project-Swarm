@@ -20,18 +20,29 @@ class Node : public Entity
         
         bool HasBeenVisited() { return _visited; }
         void SetVisited(bool visited) { _visited = visited; }
+
+        void SetParent(std::shared_ptr<Node> parent) { _parent = parent; }
+        std::shared_ptr<Node> GetParent() { return _parent; }
+
+        void SetGValue(double g_value) { _gValue = g_value; }
+        double GetGValue() { return _gValue; }
+
+        void SetHValue(double h_value) { _hValue = h_value; }
+        double GetHValue() { return _hValue; }
         
         void AddConnected(std::shared_ptr<Node> node);
         std::vector<std::shared_ptr<Node>> GetConnected() const;
 
-        // pathfinding functions
-        double CalculateHValue(std::shared_ptr<Node> goal);
+        double Distance(std::shared_ptr<Node> node);
 
     protected:
         bool _goal;
         bool _spawnPoint;
 
         bool _visited;
+        double _hValue;
+        double _gValue;
+        std::shared_ptr<Node> _parent;
 
         std::vector<std::shared_ptr<Node>> _connectedNodes;
 };
