@@ -22,9 +22,9 @@ class RoutePlanner
         // add neighbouring nodes to the open list
         void RoutePlanner::AddNeighbours(std::shared_ptr<Node> currentNode);
         std::shared_ptr<Node> NextNode();
-        
+
         void RoutePlanner::ConstructFinalPath(std::shared_ptr<Node> node);
-        void RoutePlanner::AStarSearch();
+        std::vector<std::shared_ptr<Node>> RoutePlanner::AStarSearch();
 
     private:
         std::shared_ptr<Model> _model;

@@ -72,7 +72,7 @@ void RoutePlanner::ConstructFinalPath(std::shared_ptr<Node> node)
     std::reverse(_path.begin(), _path.end());
 }
 
-void RoutePlanner::AStarSearch()
+std::vector<std::shared_ptr<Node>> RoutePlanner::AStarSearch()
 {  
     std::shared_ptr<Node> currentNode = nullptr;
 
@@ -91,4 +91,6 @@ void RoutePlanner::AStarSearch()
         }
         AddNeighbours(currentNode);
     }
+
+    return _path;
 }
