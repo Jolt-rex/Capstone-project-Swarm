@@ -16,12 +16,11 @@ class Model
 
         // getter / setters
         std::vector<std::shared_ptr<Node>> getNodes();
-        std::vector<std::shared_ptr<Path>> getPaths();
 
     private:
         // private members
         std::vector<std::shared_ptr<Node>> _nodes;
-        std::vector<std::shared_ptr<Path>> _paths;
+        std::shared_ptr<Node> _goal;
 };
 
 #endif

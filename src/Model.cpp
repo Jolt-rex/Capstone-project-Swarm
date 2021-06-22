@@ -15,7 +15,7 @@ Model::Model(std::string map)
         return;
     }
 
-    // load intersections
+    // load nodes
     for(const auto &node : input.select_nodes("/node")) {
         int id = std::stoi(node.node().attribute("id").as_string());
         int x = std::stoi(node.node().attribute("x").as_string());
@@ -27,14 +27,11 @@ Model::Model(std::string map)
         _nodes.emplace_back(std::make_shared<Node>(id, x, y, isGoal, isSpawnPoint));
     }
 
-    // load paths
+    // connect nodes
     for(const auto &path : input.select_nodes("/path")) {
-        int id = std::stoi(path.node().attribute("id").as_string());
+        //int id = std::stoi(path.node().attribute("id").as_string());
         int first = std::stoi(path.node().attribute("first").as_string());
         int second = std::stoi(path.node().attribute("second").as_string());
-
-        // TODO: performance would be better with hashmap instead of vector
-        std::shared_ptr<Path> newPath = std::make_shared<Path>();
 
         // find the intersections defined by the path
         std::shared_ptr<Node> firstNode, secondNode;
@@ -45,19 +42,13 @@ Model::Model(std::string map)
                 secondNode = node;
         }
 
-        //std::cout << "Adding intersections to path" << std::endl;
-        newPath->addFirst(firstNode);
-        newPath->addSecond(secondNode);
-        _paths.emplace_back(newPath);
+        // cross link the nodes to each other using shared_ptr's
+        firstNode->addConnected(secondNode);
+        secondNode->addConnected(firstNode);
     }
 }
 
 std::vector<std::shared_ptr<Node> > Model::getNodes()
 {
     return _nodes;
-}
-
-std::vector<std::shared_ptr<Path> > Model::getPaths()
-{
-    return _paths;
 }

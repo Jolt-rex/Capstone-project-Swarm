@@ -4,7 +4,6 @@
 #include <vector>
 #include <memory>
 #include "Entity.h"
-#include "Path.h"
 
 // forward declaration
 class Path;
@@ -17,13 +16,14 @@ class Node : public Entity
         Node(int id, int x, int y, bool isGoal, bool isSpawnPoint);
         bool isGoal() const { return _goal; }
         bool isSpawnPoint() const { return _spawnPoint; }
-        void addPath(std::shared_ptr<Path> path);
+        void addConnected(std::shared_ptr<Node> node);
+        std::vector<std::shared_ptr<Node>> getConnected() const;
 
     private:
         bool _goal;
         bool _spawnPoint;
 
-        std::vector<std::shared_ptr<Path> > _paths;
+        std::vector<std::shared_ptr<Node>> _connectedNodes;
 };
 
 

@@ -11,7 +11,12 @@ Node::Node(int id, int x, int y, bool isGoal, bool isSpawnPoint) : Entity(id, x,
     _spawnPoint = isSpawnPoint;
 }
 
-void Node::addPath(std::shared_ptr<Path> path)
+void Node::addConnected(std::shared_ptr<Node> node)
 {
-    _paths.push_back(path);
+    _connectedNodes.push_back(node);
+}
+
+std::vector<std::shared_ptr<Node>> Node::getConnected() const
+{
+    return _connectedNodes;
 }

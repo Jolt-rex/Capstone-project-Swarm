@@ -59,16 +59,13 @@ void Graphics::renderFrame()
         }
     }
 
-    std::cout << "Path size: " << _model->getPaths().size() << std::endl;
-    for(const auto &path : _model->getPaths()) {
-        std::shared_ptr<Node> first = path->getFirst();
-        std::shared_ptr<Node> second = path->getSecond();
-
-        //std::cout << "Point from " << first->getX() << " " << first->getY() << " to " << second->getX() << " " << second->getY() << std::endl;
-
-        cv::line(_imageStack[1], cv::Point2d(first->getX(), first->getY()), cv::Point2d(second->getX(), second->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
+    // for each node in the model, iterate over it's connected nodes and draw a line between the two
+    for(const auto &node : _model->getNodes()) {
+        for(const auto &connectedNode : node->getConnected())
+        {
+            cv::line(_imageStack[1], cv::Point2d(node->getX(), node->getY()), cv::Point2d(connectedNode->getX(), connectedNode->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
+        }
     }
-
 
     // display the background and overlay image
     float opacity = 0.85;
