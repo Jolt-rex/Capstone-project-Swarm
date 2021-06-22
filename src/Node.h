@@ -13,15 +13,25 @@ class Path;
 class Node : public Entity
 {
     public:
-        Node(int id, int x, int y, bool isGoal, bool isSpawnPoint);
-        bool isGoal() const { return _goal; }
-        bool isSpawnPoint() const { return _spawnPoint; }
-        void addConnected(std::shared_ptr<Node> node);
-        std::vector<std::shared_ptr<Node>> getConnected() const;
+        Node(int id, double x, double y, bool isGoal, bool isSpawnPoint);
 
-    private:
+        bool IsGoal() const { return _goal; }
+        bool IsSpawnPoint() const { return _spawnPoint; }
+        
+        bool HasBeenVisited() { return _visited; }
+        void SetVisited(bool visited) { _visited = visited; }
+        
+        void AddConnected(std::shared_ptr<Node> node);
+        std::vector<std::shared_ptr<Node>> GetConnected() const;
+
+        // pathfinding functions
+        double CalculateHValue(std::shared_ptr<Node> goal);
+
+    protected:
         bool _goal;
         bool _spawnPoint;
+
+        bool _visited;
 
         std::vector<std::shared_ptr<Node>> _connectedNodes;
 };

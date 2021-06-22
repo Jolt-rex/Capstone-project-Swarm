@@ -12,20 +12,6 @@ void Enemy::ConstructPath()
 
 }
 
-// expand current node by adding all unvisited neighbours to open_list
-// for each neighbour, set the parent, g_value and h_value
-// set node to visited
-void Enemy::AddNeighbours(std::shared_ptr<Node> currentNode)
-{
-
-}
-
-// get the direct line distance of this object to the goal node
-float Enemy::CalculateHValue()
-{
-    return std::sqrt(std::pow((this->_x - _goal->getX()), 2) + std::pow((this->_y - _goal->getY()), 2));
-}
-
 std::shared_ptr<Node> Enemy::NextNode()
 {
 

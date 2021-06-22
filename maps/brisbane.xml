@@ -1,9 +1,11 @@
 # goal node is id="0"
 # nodes with a spawn element will spawn enemy entities
 
+<spawn node="2"></spawn>
+
 <node id="0" x="985" y="481"></node>
 <node id="1" x="547" y="250"></node>
-<node id="2" x="605" y="329" spawn="true"></node>
+<node id="2" x="605" y="329"></node>
 <node id="3" x="547" y="250"></node>
 <node id="4" x="574" y="237"></node>
 <node id="5" x="640" y="215"></node>

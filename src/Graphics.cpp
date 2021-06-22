@@ -39,7 +39,7 @@ void Graphics::renderFrame()
     _imageStack[2] = _imageStack[0].clone();
 
     // create entities to be overlaid from _model data
-    for(const auto &node : _model->getNodes()) {
+    for(const auto &node : _model->GetNodes()) {
         int id = node->getId();
         int x = node->getX();
         int y = node->getY();
@@ -47,11 +47,11 @@ void Graphics::renderFrame()
         //std::cout << "Entity id= " << id << " x= " << x << " y= " << y << std::endl;
 
         // if it is the goal node, render a pink circle
-        if(node->isGoal()) {
+        if(node->IsGoal()) {
             cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(219, 3, 252), -1);
         }
         // render a red circle for a spawn point
-        else if(node->isSpawnPoint()) {
+        else if(node->IsSpawnPoint()) {
             cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 0, 255), -1);
         } else {
         // render a green circle for an node
@@ -60,8 +60,8 @@ void Graphics::renderFrame()
     }
 
     // for each node in the model, iterate over it's connected nodes and draw a line between the two
-    for(const auto &node : _model->getNodes()) {
-        for(const auto &connectedNode : node->getConnected())
+    for(const auto &node : _model->GetNodes()) {
+        for(const auto &connectedNode : node->GetConnected())
         {
             cv::line(_imageStack[1], cv::Point2d(node->getX(), node->getY()), cv::Point2d(connectedNode->getX(), connectedNode->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
         }

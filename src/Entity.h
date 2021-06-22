@@ -5,8 +5,8 @@
 class Entity
 {
     public:
-        Entity(int id, float x, float y);
-        void setLocation(float x, float y);
+        Entity(int id, double x, double y);
+        void setLocation(double x, double y);
         int getId() { return _id; }
         float getX() { return _x; }
         float getY() { return _y; }
@@ -14,8 +14,8 @@ class Entity
 
     protected:
         int _id;
-        float _x;
-        float _y;
+        double _x;
+        double _y;
 };
 
 #endif

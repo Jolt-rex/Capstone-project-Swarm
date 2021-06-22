@@ -1,5 +1,6 @@
 #include <string>
 #include <iostream>
+#include <algorithm>
 #include "Model.h"
 #include "Entity.h"
 #include "Node.h"
@@ -15,6 +16,12 @@ Model::Model(std::string map)
         return;
     }
 
+    // find spawn points
+    std::vector<int> spawnNodeIds;
+    for(const auto &spawnPoint: input.select_nodes("/spawn")) {
+        spawnNodeIds.push_back(std::stoi(spawnPoint.node().attribute("node").as_string()));
+    }
+
     // load nodes
     for(const auto &node : input.select_nodes("/node")) {
         int id = std::stoi(node.node().attribute("id").as_string());
@@ -22,7 +29,11 @@ Model::Model(std::string map)
         int y = std::stoi(node.node().attribute("y").as_string());
         
         bool isGoal = id == 0 ? true : false;
-        bool isSpawnPoint = node.node().attribute("spawn") ? true : false;
+        bool isSpawnPoint = false;
+
+        if(std::find(spawnNodeIds.begin(), spawnNodeIds.end(), id) != spawnNodeIds.end()) {
+            isSpawnPoint = true;
+        }
 
         _nodes.emplace_back(std::make_shared<Node>(id, x, y, isGoal, isSpawnPoint));
     }
@@ -43,12 +54,12 @@ Model::Model(std::string map)
         }
 
         // cross link the nodes to each other using shared_ptr's
-        firstNode->addConnected(secondNode);
-        secondNode->addConnected(firstNode);
+        firstNode->AddConnected(secondNode);
+        secondNode->AddConnected(firstNode);
     }
 }
 
-std::vector<std::shared_ptr<Node> > Model::getNodes()
+std::vector<std::shared_ptr<Node> > Model::GetNodes()
 {
     return _nodes;
 }
