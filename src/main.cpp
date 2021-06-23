@@ -22,10 +22,12 @@ int main(int argc, char** argv) {
 
     std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
 
-    graphics->setMapName("brisbane");
-    graphics->setModel(model);
+    graphics->SetMapName("brisbane");
+    graphics->SetModel(model);
 
-    graphics->simulate();
+    graphics->Simulate();
+
+    spawnController->Simulate();
 
     return 0;
 }

@@ -7,20 +7,18 @@
 #include "Node.h"
 #include "Entity.h"
 
+class Model;
+
 class Enemy : public Entity
 {
     public:
-        Enemy(int id, double x, double y);
-
-        void ConstructPath();
+        Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> _path);
         
     private:
         int _speed;
         double _distance = 0.0f;
 
-        // route planning members
-        std::shared_ptr<Node> _origin;
-        std::shared_ptr<Node> _goal;
+        std::shared_ptr<Node> _target;
         std::vector<std::shared_ptr<Node>> _route;
 
         // access to the model for calculating route

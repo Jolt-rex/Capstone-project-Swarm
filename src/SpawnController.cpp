@@ -17,7 +17,9 @@ SpawnController::SpawnController(std::shared_ptr<Model> model)
 
 void SpawnController::Simulate()
 {
-    
+    std::cout << "There are " << _spawnPointCount << " spawn points." << std::endl;
+
+    _spawnPoints.front()->SpawnEnemy(1, 4);
 
 }
 

@@ -9,7 +9,14 @@ SpawnPoint::SpawnPoint(std::shared_ptr<Model> model, std::shared_ptr<Node> origi
 {
     _origin = origin;
     _goal = goal;
+    _model = model;
     
     RoutePlanner rp(model, origin, goal);
     _path = rp.AStarSearch();
+}
+
+void SpawnPoint::SpawnEnemy(int id, int speed)
+{
+    std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(id, speed, _path);
+    _model->MoveEnemyToModel(std::move(enemy));
 }

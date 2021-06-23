@@ -1,9 +1,11 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
+#include <memory>
 #include "Model.h"
 #include "Entity.h"
 #include "Node.h"
+#include "Enemy.h"
 #include "libs/pugixml.hpp"
 
 
@@ -47,11 +49,12 @@ Model::Model(std::string map)
         int second = std::stoi(path.node().attribute("second").as_string());
 
         // find the intersections defined by the path
+        // TODO: make this a weak_ptr link between nodes to prevent memory leak
         std::shared_ptr<Node> firstNode, secondNode;
         for(const auto &node : _nodes) {
-            if(node->getId() == first)
+            if(node->GetId() == first)
                 firstNode = node;
-            if(node->getId() == second)
+            if(node->GetId() == second)
                 secondNode = node;
         }
 
@@ -60,3 +63,16 @@ Model::Model(std::string map)
         secondNode->AddConnected(firstNode);
     }
 }
+
+void Model::MoveEnemyToModel(std::unique_ptr<Enemy> enemy)
+{
+    _enemies.emplace_back(std::move(enemy));
+}
+
+// find the enemy in the only referece to it and remove it from the vector
+// the unique_ptr will go out of scope and the object will be destroyed
+void Model::KillEnemy(int id)
+ {
+    auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::unique_ptr<Enemy> &e) { return e->GetId() == id; });
+    _enemies.erase(enemy);
+ }

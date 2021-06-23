@@ -1,9 +1,11 @@
 #include <iostream>
+#include <memory>
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
 
 #include "Graphics.h"
+#include "Model.h"
 #include "Node.h"
 
 void mouseHandler(int event, int x, int y, int, void*)
@@ -13,7 +15,7 @@ void mouseHandler(int event, int x, int y, int, void*)
     }
 }
 
-void Graphics::simulate() 
+void Graphics::Simulate() 
 {
     std::cout << "Running simulation" << std::endl;
 
@@ -40,7 +42,7 @@ void Graphics::renderFrame()
 
     // create entities to be overlaid from _model data
     for(const auto &node : _model->GetNodes()) {
-        int id = node->getId();
+        int id = node->GetId();
         int x = node->getX();
         int y = node->getY();
 
