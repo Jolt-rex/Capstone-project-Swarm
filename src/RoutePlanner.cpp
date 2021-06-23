@@ -1,3 +1,4 @@
+#include <iostream>
 #include <memory>
 #include <vector>
 #include <algorithm>
@@ -9,6 +10,7 @@ RoutePlanner::RoutePlanner(std::shared_ptr<Model> model, std::shared_ptr<Node> o
     // assign origin and goal nodes
     _origin = origin;
     _goal = goal;
+    std::cout << "Route Planner created.. origin node=" << _origin->getId() << " goal node=" << _goal->getId() << std::endl;
 }
 
 // reset the model of nodes, for other route planners to use the pathfinding private members
@@ -74,7 +76,7 @@ void RoutePlanner::ConstructFinalPath(std::shared_ptr<Node> node)
 
 std::vector<std::shared_ptr<Node>> RoutePlanner::AStarSearch()
 {  
-    std::shared_ptr<Node> currentNode = nullptr;
+    std::shared_ptr<Node> currentNode;
 
     _origin->SetGValue(0.0);
     _origin->SetHValue(CalculateHValue(_origin));

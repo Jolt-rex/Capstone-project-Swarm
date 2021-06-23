@@ -8,9 +8,8 @@ class Entity
         Entity(int id, double x, double y);
         void setLocation(double x, double y);
         int getId() { return _id; }
-        float getX() { return _x; }
-        float getY() { return _y; }
-
+        double getX() { return _x; }
+        double getY() { return _y; }
 
     protected:
         int _id;

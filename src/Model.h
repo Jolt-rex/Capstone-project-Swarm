@@ -15,7 +15,8 @@ class Model
         Model(std::string map);
 
         // getter / setters
-        std::vector<std::shared_ptr<Node>> GetNodes();
+        std::vector<std::shared_ptr<Node>> GetNodes() { return _nodes; }
+        std::shared_ptr<Node> GetGoal() { return _goal; }
 
     private:
         // private members

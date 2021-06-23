@@ -10,13 +10,13 @@
 class Enemy : public Entity
 {
     public:
-        Enemy(int id, float x, float y);
+        Enemy(int id, double x, double y);
 
         void ConstructPath();
         
     private:
         int _speed;
-        float _distance = 0.0f;
+        double _distance = 0.0f;
 
         // route planning members
         std::shared_ptr<Node> _origin;

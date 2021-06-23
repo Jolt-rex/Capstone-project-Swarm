@@ -5,6 +5,7 @@
 
 #include "Model.h"
 #include "Graphics.h"
+#include "SpawnController.h"
 
 // Main function entry point
 int main(int argc, char** argv) {
@@ -17,10 +18,13 @@ int main(int argc, char** argv) {
     // load entities from xml file into entities vector of shared ptrs
     std::shared_ptr<Model> model = std::make_shared<Model>("brisbane");
 
+    std::unique_ptr<SpawnController> spawnController = std::make_unique<SpawnController>(model);
+
     std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
 
     graphics->setMapName("brisbane");
     graphics->setModel(model);
+
     graphics->simulate();
 
     return 0;

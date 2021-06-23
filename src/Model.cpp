@@ -28,14 +28,16 @@ Model::Model(std::string map)
         int x = std::stoi(node.node().attribute("x").as_string());
         int y = std::stoi(node.node().attribute("y").as_string());
         
-        bool isGoal = id == 0 ? true : false;
         bool isSpawnPoint = false;
+        bool isGoal = id == 0 ? true : false;
 
         if(std::find(spawnNodeIds.begin(), spawnNodeIds.end(), id) != spawnNodeIds.end()) {
             isSpawnPoint = true;
         }
 
-        _nodes.emplace_back(std::make_shared<Node>(id, x, y, isGoal, isSpawnPoint));
+        std::shared_ptr<Node> newNode = std::make_shared<Node>(id, x, y, isGoal, isSpawnPoint);
+        _nodes.emplace_back(newNode);
+        if(isGoal) { _goal = newNode; }
     }
 
     // connect nodes
@@ -57,9 +59,4 @@ Model::Model(std::string map)
         firstNode->AddConnected(secondNode);
         secondNode->AddConnected(firstNode);
     }
-}
-
-std::vector<std::shared_ptr<Node> > Model::GetNodes()
-{
-    return _nodes;
 }

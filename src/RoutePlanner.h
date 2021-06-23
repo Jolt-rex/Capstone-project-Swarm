@@ -20,11 +20,11 @@ class RoutePlanner
 
         double CalculateHValue(std::shared_ptr<Node> node);
         // add neighbouring nodes to the open list
-        void RoutePlanner::AddNeighbours(std::shared_ptr<Node> currentNode);
+        void AddNeighbours(std::shared_ptr<Node> currentNode);
         std::shared_ptr<Node> NextNode();
 
-        void RoutePlanner::ConstructFinalPath(std::shared_ptr<Node> node);
-        std::vector<std::shared_ptr<Node>> RoutePlanner::AStarSearch();
+        void ConstructFinalPath(std::shared_ptr<Node> node);
+        std::vector<std::shared_ptr<Node>> AStarSearch();
 
     private:
         std::shared_ptr<Model> _model;
