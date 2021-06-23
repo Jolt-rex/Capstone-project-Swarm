@@ -10,13 +10,13 @@ RoutePlanner::RoutePlanner(std::shared_ptr<Model> model, std::shared_ptr<Node> o
     // assign origin and goal nodes
     _origin = origin;
     _goal = goal;
-    std::cout << "Route Planner created.. origin node=" << _origin->GetId() << " goal node=" << _goal->GetId() << std::endl;
+    std::cout << "Route Planner created.. origin node=" << _origin->getId() << " goal node=" << _goal->getId() << std::endl;
 }
 
 // reset the model of nodes, for other route planners to use the pathfinding private members
 void RoutePlanner::ResetModel()
 {
-    for(auto node : _model->GetNodes())
+    for(auto node : _model->getNodes())
     {
         node->SetGValue(0.0);
         node->SetHValue(0.0);
@@ -33,7 +33,7 @@ double RoutePlanner::CalculateHValue(std::shared_ptr<Node> node)
 // add neighbouring nodes to the open list
 void RoutePlanner::AddNeighbours(std::shared_ptr<Node> currentNode)
 {
-    std::vector<std::shared_ptr<Node>> neighbours = currentNode->GetConnected();
+    std::vector<std::shared_ptr<Node>> neighbours = currentNode->getConnected();
     for(auto &node : neighbours) {
         if(!node->HasBeenVisited()) {
             node->SetParent(currentNode);
@@ -86,7 +86,7 @@ std::vector<std::shared_ptr<Node>> RoutePlanner::AStarSearch()
     while(_openList.size() > 0)
     {
         currentNode = NextNode();
-        if(currentNode->GetId() == _goal->GetId())
+        if(currentNode->getId() == _goal->getId())
         {
             ConstructFinalPath(currentNode);
             break;

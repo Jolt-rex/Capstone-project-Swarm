@@ -17,7 +17,7 @@ void Node::AddConnected(std::shared_ptr<Node> node)
     _connectedNodes.push_back(node);
 }
 
-std::vector<std::shared_ptr<Node>> Node::GetConnected() const
+std::vector<std::shared_ptr<Node>> Node::getConnected() const
 {
     return _connectedNodes;
 }

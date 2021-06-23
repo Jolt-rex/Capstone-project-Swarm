@@ -6,9 +6,9 @@
 SpawnController::SpawnController(std::shared_ptr<Model> model)
 {
     // generate spawn points from the model
-    for(auto sp : model->GetNodes())
+    for(auto sp : model->getNodes())
     {
-        if(sp->IsSpawnPoint()) {
+        if(sp->isSpawnPoint()) {
             _spawnPoints.emplace_back(std::make_unique<SpawnPoint>(model, sp, model->GetGoal()));
         }
     }

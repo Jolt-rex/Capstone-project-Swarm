@@ -18,7 +18,8 @@ class Graphics
         void SetMapName(std::string mapName) { _mapName = mapName; }
         void SetModel(std::shared_ptr<Model> model) { _model = model; }
 
-        void Simulate();
+        void simulate();
+        void runLoop();
         void loadBackgroundImage();
         void renderFrame();
 

@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <thread>
 
 #include "Model.h"
 #include "Graphics.h"
@@ -25,9 +26,11 @@ int main(int argc, char** argv) {
     graphics->SetMapName("brisbane");
     graphics->SetModel(model);
 
-    graphics->Simulate();
+    std::thread graphicsThread(&Graphics::simulate, graphics.get());
 
     spawnController->Simulate();
+
+    graphicsThread.join();
 
     return 0;
 }

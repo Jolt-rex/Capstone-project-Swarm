@@ -52,9 +52,9 @@ Model::Model(std::string map)
         // TODO: make this a weak_ptr link between nodes to prevent memory leak
         std::shared_ptr<Node> firstNode, secondNode;
         for(const auto &node : _nodes) {
-            if(node->GetId() == first)
+            if(node->getId() == first)
                 firstNode = node;
-            if(node->GetId() == second)
+            if(node->getId() == second)
                 secondNode = node;
         }
 
@@ -73,6 +73,6 @@ void Model::MoveEnemyToModel(std::unique_ptr<Enemy> enemy)
 // the unique_ptr will go out of scope and the object will be destroyed
 void Model::KillEnemy(int id)
  {
-    auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::unique_ptr<Enemy> &e) { return e->GetId() == id; });
+    auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::unique_ptr<Enemy> &e) { return e->getId() == id; });
     _enemies.erase(enemy);
  }
