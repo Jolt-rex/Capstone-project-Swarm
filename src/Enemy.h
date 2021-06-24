@@ -12,17 +12,26 @@ class Model;
 class Enemy : public Entity
 {
     public:
+        // constructor
         Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> _path);
-        std::vector<std::shared_ptr<Node>> getRoute() { return _route; }
+
+        // getter / setter
+        std::vector<std::shared_ptr<Node>> getRoute() { return _path; }
+
+        void run();
         
     private:
         int _speed;
-        double _distance = 0.0f;
+        double _distance = 0.0;
+        double _posNodes = 0.0;
+        bool _isDead;
+        bool _atGoal;
 
-        std::shared_ptr<Node> _target;
-        std::vector<std::shared_ptr<Node>> _route;
+        std::shared_ptr<Node> _goal;
+        std::vector<std::shared_ptr<Node>> _path;
 
-        // access to the model for calculating route
+        // access to the model for sending message to kill / 
+        // remove this enemy from the model when dead
         std::shared_ptr<Model> _model;
 };
 

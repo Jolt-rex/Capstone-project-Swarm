@@ -16,7 +16,7 @@ SpawnController::SpawnController(std::shared_ptr<Model> model)
     _spawnPointCount = _spawnPoints.size();
 }
 
-void SpawnController::Simulate()
+void SpawnController::simulate()
 {
     std::cout << "There are " << _spawnPointCount << " spawn points." << std::endl;
 

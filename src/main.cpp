@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     std::thread graphicsThread(&Graphics::simulate, graphics.get());
     //graphics->simulate();
 
-    spawnController->Simulate();
+    spawnController->simulate();
 
     graphicsThread.join();
 

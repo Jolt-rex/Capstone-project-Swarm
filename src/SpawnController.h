@@ -11,7 +11,7 @@ class SpawnController
 {
     public:
         SpawnController(std::shared_ptr<Model> model);
-        void Simulate();
+        void simulate();
 
     private:
         std::vector<std::unique_ptr<SpawnPoint>> _spawnPoints;

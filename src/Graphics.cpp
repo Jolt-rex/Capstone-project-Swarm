@@ -81,9 +81,10 @@ void Graphics::renderFrame()
     // draw enemies
     for(const auto &enemy : _model->_enemies)
     {
-        for(const auto &node : enemy->getRoute()) {
-            cv::circle(_imageStack[1], cv::Point2d(node->getX(), node->getY()), 4, cv::Scalar(255, 0, 0), -1);
-        }
+        //for(const auto &node : enemy->getRoute()) {
+            cv::circle(_imageStack[1], cv::Point2d(enemy->getX(), enemy->getY()), 4, cv::Scalar(255, 0, 0), -1);
+        //}
+        std::cout << "Enemy location x=" << enemy->getX() << " y=" << enemy->getY() << std::endl;
     }
 
     // display the background and overlay image

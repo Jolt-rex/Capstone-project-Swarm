@@ -67,6 +67,7 @@ Model::Model(std::string map)
 void Model::MoveEnemyToModel(std::unique_ptr<Enemy> enemy)
 {
     _enemies.emplace_back(std::move(enemy));
+    _enemies.back()->run();
 }
 
 // find the enemy in the only referece to it and remove it from the vector
