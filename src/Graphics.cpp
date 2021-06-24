@@ -81,7 +81,9 @@ void Graphics::renderFrame()
     // draw enemies
     for(const auto &enemy : _model->_enemies)
     {
-        cv::circle(_imageStack[1], cv::Point2d(enemy->getX(), enemy->getY()), 4, cv::Scalar(255, 0, 0), -1);
+        for(const auto &node : enemy->getRoute()) {
+            cv::circle(_imageStack[1], cv::Point2d(node->getX(), node->getY()), 4, cv::Scalar(255, 0, 0), -1);
+        }
     }
 
     // display the background and overlay image
@@ -89,5 +91,5 @@ void Graphics::renderFrame()
     cv::addWeighted(_imageStack[1], opacity, _imageStack[0], 1.0 - opacity, 0, _imageStack[2]);
     cv::imshow(_windowName, _imageStack[2]);
 
-    cv::waitKey(0);
+    cv::waitKey(33);
 }

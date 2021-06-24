@@ -15,8 +15,8 @@ class Graphics
         //constructor / destructor
 
         // getters / setters
-        void SetMapName(std::string mapName) { _mapName = mapName; }
-        void SetModel(std::shared_ptr<Model> model) { _model = model; }
+        void setMapName(std::string mapName) { _mapName = mapName; }
+        void setModel(std::shared_ptr<Model> model) { _model = model; }
 
         void simulate();
         void runLoop();

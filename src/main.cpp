@@ -23,10 +23,11 @@ int main(int argc, char** argv) {
 
     std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
 
-    graphics->SetMapName("brisbane");
-    graphics->SetModel(model);
+    graphics->setMapName("brisbane");
+    graphics->setModel(model);
 
     std::thread graphicsThread(&Graphics::simulate, graphics.get());
+    //graphics->simulate();
 
     spawnController->Simulate();
 

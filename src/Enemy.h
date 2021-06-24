@@ -13,6 +13,7 @@ class Enemy : public Entity
 {
     public:
         Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> _path);
+        std::vector<std::shared_ptr<Node>> getRoute() { return _route; }
         
     private:
         int _speed;

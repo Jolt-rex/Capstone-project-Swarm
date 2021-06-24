@@ -1,5 +1,6 @@
 #include <memory>
 #include <vector>
+#include <thread>
 
 #include "SpawnController.h"
 
@@ -19,7 +20,8 @@ void SpawnController::Simulate()
 {
     std::cout << "There are " << _spawnPointCount << " spawn points." << std::endl;
 
-    _spawnPoints.front()->SpawnEnemy(1, 4);
-
+    std::thread threadEnemy(&SpawnPoint::SpawnEnemy, _spawnPoints.front().get(), 1, 4);
+    //_spawnPoints.front()->SpawnEnemy(1, 4);
+    threadEnemy.join();
 }
 
