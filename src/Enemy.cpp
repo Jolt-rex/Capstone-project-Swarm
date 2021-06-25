@@ -25,7 +25,7 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
 
 void Enemy::run()
 {
-    // start at the first node
+    // allocate iterators to the first and second nodes to move between
     std::vector<std::shared_ptr<Node>>::iterator fromNode = _path.begin();
     std::vector<std::shared_ptr<Node>>::iterator toNode = _path.begin();
     toNode++;
@@ -33,14 +33,16 @@ void Enemy::run()
     // start clock for movement calculation
     auto lastUpdate = std::chrono::system_clock::now(); 
 
+    // get the x and y values for nodes we are moving between    
+    double x1 = fromNode->get()->getX();
+    double y1 = fromNode->get()->getY();
+    double x2 = toNode->get()->getX();
+    double y2 = toNode->get()->getY();
+    double distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
+
     while(!_isDead && !_atGoal)
     {
-            double x1 = fromNode->get()->getX();
-            double y1 = fromNode->get()->getY();
-            double x2 = toNode->get()->getX();
-            double y2 = toNode->get()->getY();
             std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
-            double distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
             std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
 
             // sleep 1ms to lower CPU demand
@@ -60,13 +62,27 @@ void Enemy::run()
                 _x = x1 + distanceTravelledRatio * (x2 - x1);
                 _y = y1 + distanceTravelledRatio * (y2 - y1);
                 
+                // if we are 99% of the distance to the toNode
+                // iterate to both node references to the next two in the path
                 if(distanceTravelledRatio > 0.99) {
                     _posNodes = 0.0;
                     fromNode++;
                     toNode++;
-                    if(toNode == _path.end()) {
-                        _atGoal = true;
+                    
+                    // if we have passed the last node in the path, set the atGoal member to exit the while loop
+                    if(toNode == _path.end()) { 
+                        _atGoal = true; 
+                        break;    
                     }
+
+                    // update x and y values for nodes we are moving between
+                    x1 = fromNode->get()->getX();
+                    y1 = fromNode->get()->getY();
+                    x2 = toNode->get()->getX();
+                    y2 = toNode->get()->getY();
+
+                    // re calculate distance between the next iteration of node pairs
+                    distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
                 }
             }
             // reset last update to current time
