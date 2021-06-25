@@ -33,7 +33,7 @@ void Enemy::run()
     // start clock for movement calculation
     auto lastUpdate = std::chrono::system_clock::now(); 
 
-    while(!_isDead && !_atGoal && toNode != _path.end())
+    while(!_isDead && !_atGoal)
     {
             double x1 = fromNode->get()->getX();
             double y1 = fromNode->get()->getY();
@@ -60,13 +60,17 @@ void Enemy::run()
                 _x = x1 + distanceTravelledRatio * (x2 - x1);
                 _y = y1 + distanceTravelledRatio * (y2 - y1);
                 
-                if(distanceTravelledRatio > 0.95) {
+                if(distanceTravelledRatio > 0.99) {
                     _posNodes = 0.0;
                     fromNode++;
                     toNode++;
+                    if(toNode == _path.end()) {
+                        _atGoal = true;
+                    }
                 }
             }
             // reset last update to current time
             lastUpdate = std::chrono::system_clock::now();
     }
+    std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
 }
