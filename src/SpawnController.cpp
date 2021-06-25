@@ -20,7 +20,7 @@ void SpawnController::simulate()
 {
     std::cout << "There are " << _spawnPointCount << " spawn points." << std::endl;
 
-    std::thread threadEnemy(&SpawnPoint::SpawnEnemy, _spawnPoints.front().get(), 1, 4);
+    std::thread threadEnemy(&SpawnPoint::SpawnEnemy, _spawnPoints.front().get(), 1, 6);
     //_spawnPoints.front()->SpawnEnemy(1, 4);
     threadEnemy.join();
 }

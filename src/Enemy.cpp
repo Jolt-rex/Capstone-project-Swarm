@@ -28,41 +28,45 @@ void Enemy::run()
     // start at the first node
     std::vector<std::shared_ptr<Node>>::iterator fromNode = _path.begin();
     std::vector<std::shared_ptr<Node>>::iterator toNode = _path.begin();
-
     toNode++;
-
-    double x1 = fromNode->get()->getX();
-    double y1 = fromNode->get()->getY();
-    double x2 = toNode->get()->getX();
-    double y2 = toNode->get()->getY();
-    std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
-    double distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
-    std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
 
     // start clock for movement calculation
     auto lastUpdate = std::chrono::system_clock::now(); 
 
-    while(!_isDead && !_atGoal)
+    while(!_isDead && !_atGoal && toNode != _path.end())
     {
-        // sleep 1ms to lower CPU demand
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+            double x1 = fromNode->get()->getX();
+            double y1 = fromNode->get()->getY();
+            double x2 = toNode->get()->getX();
+            double y2 = toNode->get()->getY();
+            std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
+            double distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
+            std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
 
-        // calculate time difference
-        long timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
-        if(timeDifference >= 1)
-        {
-            // determine how far along the path between the nodes we are
-            _posNodes += _speed * timeDifference / 1000.0;
+            // sleep 1ms to lower CPU demand
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-            // get distance between the nodes
-            double distanceTravelledRatio = _posNodes / distanceBetweenNodes;
-            std::cout << "Speed: " << _speed << " Time Diff: " << timeDifference << " Pos between nodes: " << _posNodes << " Distance ratio: " << distanceTravelledRatio << std::endl;
+            // calculate time difference
+            long timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
+            if(timeDifference >= 1)
+            {
+                // determine how far along the path between the nodes we are
+                _posNodes += _speed * timeDifference / 1000.0;
 
-            _x = (((1 - distanceTravelledRatio) * (x1 + (distanceTravelledRatio * x2))));
-            _y = (((1 - distanceTravelledRatio) * (y1 + (distanceTravelledRatio * y2))));
-        }
-        // reset last update to current time
-        lastUpdate = std::chrono::system_clock::now();
+                // get distance between the nodes
+                double distanceTravelledRatio = _posNodes / distanceBetweenNodes;
+                std::cout << "Speed: " << _speed << " Time Diff: " << timeDifference << " Pos between nodes: " << _posNodes << " Distance ratio: " << distanceTravelledRatio << std::endl;
 
+                _x = x1 + distanceTravelledRatio * (x2 - x1);
+                _y = y1 + distanceTravelledRatio * (y2 - y1);
+                
+                if(distanceTravelledRatio > 0.95) {
+                    _posNodes = 0.0;
+                    fromNode++;
+                    toNode++;
+                }
+            }
+            // reset last update to current time
+            lastUpdate = std::chrono::system_clock::now();
     }
 }
