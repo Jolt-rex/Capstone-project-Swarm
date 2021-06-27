@@ -23,6 +23,12 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
     }
 }
 
+void Enemy::simulate()
+{
+    // begin run function in it's own thread on this object
+    _threads.emplace_back(std::thread(&Enemy::run, this));
+}
+
 void Enemy::run()
 {
     // allocate iterators to the first and second nodes to move between

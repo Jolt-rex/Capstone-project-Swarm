@@ -16,6 +16,8 @@ class SpawnController
     private:
         std::vector<std::unique_ptr<SpawnPoint>> _spawnPoints;
         int _spawnPointCount;
+        int _enemyCount;
+        bool _running;
 };
 
 #endif

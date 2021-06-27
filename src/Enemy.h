@@ -18,6 +18,7 @@ class Enemy : public Entity
         // getter / setter
         std::vector<std::shared_ptr<Node>> getRoute() { return _path; }
 
+        void simulate();
         void run();
         
     private:
