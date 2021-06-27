@@ -14,6 +14,7 @@ SpawnController::SpawnController(std::shared_ptr<Model> model)
         }
     }
     _spawnPointCount = _spawnPoints.size();
+    _enemyCount = 0;
 }
 
 void SpawnController::simulate()  
@@ -27,7 +28,7 @@ void SpawnController::simulate()
     {
         // update every 1/10 of a second
         std::this_thread::sleep_for(std::chrono::milliseconds(4000));
-        _spawnPoints.front()->SpawnEnemy(10, 8);
+        if(_enemyCount < 3) _spawnPoints.front()->SpawnEnemy(++_enemyCount, 8);
     }    
 }
 

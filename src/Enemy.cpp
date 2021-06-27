@@ -10,17 +10,23 @@
 Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) : 
     Entity(id, path.front()->getX(), path.front()->getY())
 {
-    std::cout << "Constructing enemy.. " << std::endl;
+    std::cout << "Constructing enemy #" << id << std::endl;
 
     _path = path;
     _speed = speed;
     _isDead = false;
     _atGoal = false;
 
-    std::cout << "Enemy path:\n";
-    for(const auto &node : _path) {
-        std::cout << "Id:" << node->getId() << " x:" << node->getX() << " y:" << node->getY() << std::endl; 
-    }
+    // print path nodes x and y points
+    // std::cout << "Enemy path:\n";
+    // for(const auto &node : _path) {
+    //     std::cout << "Id:" << node->getId() << " x:" << node->getX() << " y:" << node->getY() << std::endl; 
+    // }
+}
+
+Enemy::~Enemy()
+{
+    std::cout << "Enemy #" << _id << " destructor" << std::endl;
 }
 
 void Enemy::simulate()
@@ -48,8 +54,8 @@ void Enemy::run()
 
     while(!_isDead && !_atGoal)
     {
-            std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
-            std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
+            //std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
+            //std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
 
             // sleep 1ms to lower CPU demand
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
@@ -63,7 +69,7 @@ void Enemy::run()
 
                 // get distance between the nodes
                 double distanceTravelledRatio = _posNodes / distanceBetweenNodes;
-                std::cout << "Speed: " << _speed << " Time Diff: " << timeDifference << " Pos between nodes: " << _posNodes << " Distance ratio: " << distanceTravelledRatio << std::endl;
+                //std::cout << "Speed: " << _speed << " Time Diff: " << timeDifference << " Pos between nodes: " << _posNodes << " Distance ratio: " << distanceTravelledRatio << std::endl;
 
                 _x = x1 + distanceTravelledRatio * (x2 - x1);
                 _y = y1 + distanceTravelledRatio * (y2 - y1);
@@ -94,5 +100,6 @@ void Enemy::run()
             // reset last update to current time
             lastUpdate = std::chrono::system_clock::now();
     }
-    std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
+    if(_atGoal) std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
+
 }

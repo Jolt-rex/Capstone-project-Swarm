@@ -14,6 +14,7 @@ class Enemy : public Entity
     public:
         // constructor
         Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> _path);
+        ~Enemy();
 
         // getter / setter
         std::vector<std::shared_ptr<Node>> getRoute() { return _path; }
