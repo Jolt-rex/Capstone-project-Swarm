@@ -19,10 +19,10 @@ class Model
 
         // getter / setters
         std::vector<std::shared_ptr<Node>> getNodes() { return _nodes; }
-        std::shared_ptr<Node> GetGoal() { return _goal; }
+        std::shared_ptr<Node> getGoal() { return _goal; }
 
-        void MoveEnemyToModel(std::unique_ptr<Enemy> enemy);
-        void KillEnemy(int id);
+        void moveEnemyToModel(std::unique_ptr<Enemy> enemy);
+        void killEnemy(int id);
 
         std::vector<std::unique_ptr<Enemy>> _enemies;
     private:

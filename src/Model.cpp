@@ -64,7 +64,7 @@ Model::Model(std::string map)
     }
 }
 
-void Model::MoveEnemyToModel(std::unique_ptr<Enemy> enemy)
+void Model::moveEnemyToModel(std::unique_ptr<Enemy> enemy)
 {
     _enemies.emplace_back(std::move(enemy));
     _enemies.back()->simulate();
@@ -72,7 +72,7 @@ void Model::MoveEnemyToModel(std::unique_ptr<Enemy> enemy)
 
 // find the enemy in the only referece to it and remove it from the vector
 // the unique_ptr will go out of scope and the object will be destroyed
-void Model::KillEnemy(int id)
+void Model::killEnemy(int id)
  {
     auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::unique_ptr<Enemy> &e) { return e->getId() == id; });
     _enemies.erase(enemy);

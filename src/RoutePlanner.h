@@ -15,15 +15,16 @@ class RoutePlanner
 {
     public:
         RoutePlanner(std::shared_ptr<Model> model, std::shared_ptr<Node> origin, std::shared_ptr<Node> goal);
+        ~RoutePlanner();
 
-        void ResetModel();
+        void resetModel();
 
-        double CalculateHValue(std::shared_ptr<Node> node);
+        double calculateHValue(std::shared_ptr<Node> node);
         // add neighbouring nodes to the open list
-        void AddNeighbours(std::shared_ptr<Node> currentNode);
-        std::shared_ptr<Node> NextNode();
+        void addNeighbours(std::shared_ptr<Node> currentNode);
+        std::shared_ptr<Node> nextNode();
 
-        void ConstructFinalPath(std::shared_ptr<Node> node);
+        void constructFinalPath(std::shared_ptr<Node> node);
         std::vector<std::shared_ptr<Node>> AStarSearch();
 
     private:
