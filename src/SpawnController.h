@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <thread>
 #include "Model.h"
 #include "Enemy.h"
 #include "SpawnPoint.h"
@@ -11,6 +12,9 @@ class SpawnController
 {
     public:
         SpawnController(std::shared_ptr<Model> model);
+        ~SpawnController();
+        
+        void spawnEnemies();
         void simulate();
 
     private:
@@ -18,6 +22,9 @@ class SpawnController
         int _spawnPointCount;
         int _enemyCount;
         bool _running;
+
+        // thread holder
+        std::thread _thread;
 };
 
 #endif

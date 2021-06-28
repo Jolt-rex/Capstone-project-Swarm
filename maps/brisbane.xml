@@ -2,6 +2,7 @@
 # nodes with a spawn element will spawn enemy entities
 
 <spawn node="2"></spawn>
+<spawn node="18"></spawn>
 
 <node id="0" x="985" y="481"></node>
 <node id="1" x="547" y="250"></node>
@@ -19,6 +20,22 @@
 <node id="13" x="914" y="496"></node>
 <node id="14" x="903" y="399"></node>
 <node id="15" x="956" y="459"></node>
+<node id="16" x="997" y="314"></node>
+<node id="17" x="933" y="262"></node>
+<node id="18" x="864" y="184"></node>
+<node id="19" x="788" y="246"></node>
+
+
+
+
+<path id="16" first="14" second="16"></path>
+<path id="17" first="16" second="17"></path>
+<path id="18" first="17" second="18"></path>
+<path id="19" first="18" second="19"></path>
+<path id="20" first="9" second="19"></path>
+
+
+
 
 # paths link two nodes together by their id
 <path id="1" first="1" second="2"></path>

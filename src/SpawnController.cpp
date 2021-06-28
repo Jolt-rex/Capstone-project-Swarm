@@ -17,9 +17,20 @@ SpawnController::SpawnController(std::shared_ptr<Model> model)
     _enemyCount = 0;
 }
 
+SpawnController::~SpawnController()
+{
+    _thread.join();
+}
+
 void SpawnController::simulate()  
 {
     std::cout << "There are " << _spawnPointCount << " spawn points." << std::endl;
+    
+    _thread = std::thread(&SpawnController::spawnEnemies, this);
+}
+
+void SpawnController::spawnEnemies()
+{
     _running = true;
     
     // spawn controller loop to spawn enemies at random times
@@ -29,6 +40,7 @@ void SpawnController::simulate()
         // update every 1/10 of a second
         std::this_thread::sleep_for(std::chrono::milliseconds(4000));
         if(_enemyCount < 3) _spawnPoints.front()->SpawnEnemy(++_enemyCount, 8);
-    }    
+    } 
+
 }
 
