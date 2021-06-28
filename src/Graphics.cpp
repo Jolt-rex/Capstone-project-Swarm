@@ -9,10 +9,22 @@
 #include "Model.h"
 #include "Node.h"
 
-void mouseHandler(int event, int x, int y, int, void*)
+void Graphics::mouseHandler(int event, int x, int y, int, void* userdata)
+{
+    if(userdata != nullptr)
+    {
+        Graphics *graphics = reinterpret_cast<Graphics*>(userdata);
+        graphics->graphicsMouseHandler(event, x, y);
+    }
+}
+
+void Graphics::graphicsMouseHandler(int event, int x, int y)
 {
     if(event == cv::EVENT_LBUTTONDOWN) {
         std::cout << "Mouse location: X:" << x << " Y:" << y << std::endl;
+        
+        int towerId = _model->_towers.size() + 1;
+        _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y));
     }
 }
 
@@ -21,7 +33,7 @@ void Graphics::simulate()
     std::cout << "Running simulation" << std::endl;
     this->loadBackgroundImage();
     
-    cv::setMouseCallback(_windowName, mouseHandler, NULL);
+    cv::setMouseCallback(_windowName, mouseHandler, this);
     
     // rendering loop
     while(true) 
@@ -76,6 +88,14 @@ void Graphics::renderFrame()
         {
             cv::line(_imageStack[1], cv::Point2d(node->getX(), node->getY()), cv::Point2d(connectedNode->getX(), connectedNode->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
         }
+    }
+
+    // draw towers
+    for(const auto &tower : _model->_towers)
+    {
+        int x = tower->getX();
+        int y = tower->getY();
+        cv::rectangle(_imageStack[1], cv::Point2d(x - 2, y - 10), cv::Point2d(x + 2, y), cv::FILLED, cv::LINE_4, 0);
     }
 
     // draw enemies

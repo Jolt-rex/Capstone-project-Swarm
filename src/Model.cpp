@@ -64,16 +64,18 @@ Model::Model(std::string map)
     }
 }
 
-void Model::moveEnemyToModel(std::unique_ptr<Enemy> enemy)
+void Model::moveEnemyToModel(std::shared_ptr<Enemy> enemy)
 {
     _enemies.emplace_back(std::move(enemy));
     _enemies.back()->simulate();
 }
 
-// find the enemy in the only referece to it and remove it from the vector
-// the unique_ptr will go out of scope and the object will be destroyed
+// find the enemy with the model referece to it and remove it from the vector
+// the shared_ptr will go out of scope and the object will be destroyed
+// once the missile shared_ptr is destroyed also
+// this means we must ensure only one missle can target the enemy at any time
 void Model::killEnemy(int id)
  {
-    auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::unique_ptr<Enemy> &e) { return e->getId() == id; });
+    auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::shared_ptr<Enemy> &e) { return e->getId() == id; });
     _enemies.erase(enemy);
  }

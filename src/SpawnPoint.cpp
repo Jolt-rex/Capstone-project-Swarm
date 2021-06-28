@@ -20,6 +20,6 @@ SpawnPoint::SpawnPoint(std::shared_ptr<Model> model, std::shared_ptr<Node> origi
 
 void SpawnPoint::SpawnEnemy(int id, int speed)
 {
-    std::unique_ptr<Enemy> enemy = std::make_unique<Enemy>(id, speed, _path);
+    std::shared_ptr<Enemy> enemy = std::make_shared<Enemy>(id, speed, _path);
     _model->moveEnemyToModel(std::move(enemy));
 }

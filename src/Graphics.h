@@ -18,6 +18,10 @@ class Graphics
         void setMapName(std::string mapName) { _mapName = mapName; }
         void setModel(std::shared_ptr<Model> model) { _model = model; }
 
+        // cv lib event handler
+        static void mouseHandler(int event, int x, int y, int, void* userdata);
+        void graphicsMouseHandler(int event, int x, int y);
+
         void simulate();
         void runLoop();
         void loadBackgroundImage();
