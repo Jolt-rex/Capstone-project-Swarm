@@ -28,8 +28,11 @@ void Tower::run()
         // wait 2 seconds
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-        std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100);
-        _model ->moveMissileToModel(missile);
+        if(_model->_enemies.size() > 0)
+        {
+            std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100, _model->_enemies.back());
+            _model->moveMissileToModel(missile);
+        }
     }
 
 }

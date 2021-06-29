@@ -10,7 +10,7 @@ class Enemy;
 class Missile : public Entity
 {
     public:
-        Missile(int id, int x, int y, int speed);
+        Missile(int id, int x, int y, int speed, std::shared_ptr<Enemy> &target);
         ~Missile();
 
         void simulate();
