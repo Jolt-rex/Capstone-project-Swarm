@@ -16,12 +16,6 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
     _speed = speed;
     _isDead = false;
     _atGoal = false;
-
-    // print path nodes x and y points
-    // std::cout << "Enemy path:\n";
-    // for(const auto &node : _path) {
-    //     std::cout << "Id:" << node->getId() << " x:" << node->getX() << " y:" << node->getY() << std::endl; 
-    // }
 }
 
 Enemy::~Enemy()
@@ -52,7 +46,7 @@ void Enemy::run()
     double y2 = toNode->get()->getY();
     double distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
 
-    while(!_isDead && !_atGoal)
+    while(!_atGoal && !_isDead)
     {
             //std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
             //std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
@@ -101,5 +95,5 @@ void Enemy::run()
             lastUpdate = std::chrono::system_clock::now();
     }
     if(_atGoal) std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
-
+    if(_isDead) std::cout << "Enemy #" << _id << " was killed..." << std::endl;
 }

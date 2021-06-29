@@ -13,6 +13,10 @@ class Tower : public Entity
 {
     public:
         Tower(int id, double x, double y);
+        ~Tower();
+
+        void simulate();
+        void run();
 
     private:
         int _missiles;

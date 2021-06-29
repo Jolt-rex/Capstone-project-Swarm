@@ -23,6 +23,7 @@ void Graphics::graphicsMouseHandler(int event, int x, int y)
     if(event == cv::EVENT_LBUTTONDOWN) {
         std::cout << "Mouse location: X:" << x << " Y:" << y << std::endl;
         
+        // directly construct the tower on the game model
         int towerId = _model->_towers.size() + 1;
         _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y));
     }
@@ -95,7 +96,7 @@ void Graphics::renderFrame()
     {
         int x = tower->getX();
         int y = tower->getY();
-        cv::rectangle(_imageStack[1], cv::Point2d(x - 2, y - 10), cv::Point2d(x + 2, y), cv::FILLED, cv::LINE_4, 0);
+        cv::rectangle(_imageStack[1], cv::Point2d(x - 2, y - 10), cv::Point2d(x + 2, y), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
     }
 
     // draw enemies

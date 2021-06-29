@@ -13,6 +13,10 @@
 class Enemy;
 class Tower;
 
+enum GameState {
+    kRunning, kWon, kLost
+};
+
 class Model
 {
     public:
@@ -22,6 +26,7 @@ class Model
         // getter / setters
         std::vector<std::shared_ptr<Node>> getNodes() { return _nodes; }
         std::shared_ptr<Node> getGoal() { return _goal; }
+        GameState getGameState() { return _gameState; }
 
         void moveEnemyToModel(std::shared_ptr<Enemy> enemy);
         void killEnemy(int id);
@@ -33,6 +38,7 @@ class Model
         // private members
         std::vector<std::shared_ptr<Node>> _nodes;
         std::shared_ptr<Node> _goal;
+        GameState _gameState; 
 
 };
 
