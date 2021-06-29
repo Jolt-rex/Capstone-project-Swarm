@@ -9,9 +9,11 @@
 #include "Node.h"
 #include "Enemy.h"
 #include "Tower.h"
+#include "Missile.h"
 
 class Enemy;
 class Tower;
+class Missile;
 
 enum GameState {
     kRunning, kWon, kLost
@@ -27,17 +29,23 @@ class Model
         std::vector<std::shared_ptr<Node>> getNodes() { return _nodes; }
         std::shared_ptr<Node> getGoal() { return _goal; }
         GameState getGameState() { return _gameState; }
+        void setGameState(GameState gs) { _gameState = gs; }
 
-        void moveEnemyToModel(std::shared_ptr<Enemy> enemy);
+        void moveEnemyToModel(std::shared_ptr<Enemy> &enemy);
         void killEnemy(int id);
+
+        void moveMissileToModel(std::unique_ptr<Missile> &missile);
 
         std::vector<std::shared_ptr<Enemy>> _enemies;
         std::vector<std::unique_ptr<Tower>> _towers;
+        std::vector<std::unique_ptr<Missile>> _missiles;
 
     private:
         // private members
         std::vector<std::shared_ptr<Node>> _nodes;
         std::shared_ptr<Node> _goal;
+
+        
         GameState _gameState; 
 
 };

@@ -5,9 +5,11 @@
 
 #include "Missile.h"
 
-Missile::Missile(int id, int x, int y) : Entity(id, x, y)
+Missile::Missile(int id, int x, int y, int speed) : Entity(id, x, y)
 {
-    _isFlying = true;
+    _destroyed = false;
+    _speed = speed;
+    std::cout << "Missle #" << id << " created" << std::endl;
 }
 
 Missile::~Missile()
@@ -23,6 +25,15 @@ void Missile::simulate()
 void Missile::launch()
 {
     // while loop for missle movement // event handling
-    
+    while(!_destroyed)
+    {
+        // move towards target
+
+    }
+}
+
+void Missile::destroy()
+{
+    _destroyed = true;
 }
 

@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
     graphics->setModel(model);
 
     std::thread graphicsThread(&Graphics::simulate, graphics.get());
-
+    
     spawnController->simulate();
 
     graphicsThread.join();

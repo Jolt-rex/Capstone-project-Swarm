@@ -25,7 +25,7 @@ void Graphics::graphicsMouseHandler(int event, int x, int y)
         
         // directly construct the tower on the game model
         int towerId = _model->_towers.size() + 1;
-        _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y));
+        _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y, _model));
     }
 }
 
@@ -96,7 +96,7 @@ void Graphics::renderFrame()
     {
         int x = tower->getX();
         int y = tower->getY();
-        cv::rectangle(_imageStack[1], cv::Point2d(x - 2, y - 10), cv::Point2d(x + 2, y), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
+        cv::rectangle(_imageStack[1], cv::Point2d(x - 2, y - 12), cv::Point2d(x + 2, y), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
     }
 
     // draw enemies
@@ -106,6 +106,12 @@ void Graphics::renderFrame()
             cv::circle(_imageStack[1], cv::Point2d(enemy->getX(), enemy->getY()), 4, cv::Scalar(255, 0, 0), -1);
         //}
         //std::cout << "Enemy location x=" << enemy->getX() << " y=" << enemy->getY() << std::endl;
+    }
+
+    // draw missiles
+    for(const auto &missile : _model->_missiles)
+    {
+        cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 3, cv::Scalar(255, 0 ,255), -1);
     }
 
     // display the background and overlay image

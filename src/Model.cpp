@@ -6,6 +6,8 @@
 #include "Entity.h"
 #include "Node.h"
 #include "Enemy.h"
+#include "Tower.h"
+#include "Missile.h"
 #include "libs/pugixml.hpp"
 
 
@@ -62,9 +64,10 @@ Model::Model(std::string map)
         firstNode->AddConnected(secondNode);
         secondNode->AddConnected(firstNode);
     }
+    _gameState = GameState::kRunning;
 }
 
-void Model::moveEnemyToModel(std::shared_ptr<Enemy> enemy)
+void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
 {
     _enemies.emplace_back(std::move(enemy));
     _enemies.back()->simulate();
@@ -78,4 +81,10 @@ void Model::killEnemy(int id)
  {
     auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::shared_ptr<Enemy> &e) { return e->getId() == id; });
     _enemies.erase(enemy);
+ }
+
+ void Model::moveMissileToModel(std::unique_ptr<Missile> &missile)
+ {
+    _missiles.emplace_back(std::move(missile));
+    _missiles.back()->simulate();
  }

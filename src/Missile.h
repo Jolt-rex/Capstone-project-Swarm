@@ -1,22 +1,25 @@
 #ifndef MISSILE_H
-#define MISSLE_H
+#define MISSILE_H
 
 #include <memory>
 #include "Enemy.h"
 #include "Entity.h"
 
+class Enemy;
+
 class Missile : public Entity
 {
     public:
-        Missile(int id, int x, int y);
+        Missile(int id, int x, int y, int speed);
         ~Missile();
 
         void simulate();
         void launch();
+        void destroy();
 
     private:
         int _speed;
-        bool _isFlying;
+        bool _destroyed;
         std::shared_ptr<Enemy> _target;
     
 

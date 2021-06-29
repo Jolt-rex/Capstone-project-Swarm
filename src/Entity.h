@@ -13,8 +13,8 @@ class Entity
 
         void setLocation(double x, double y);
         int getId() { return _id; }
-        double getX() { return _x; }
-        double getY() { return _y; }
+        const double &getX() { return _x; }
+        const double &getY() { return _y; }
 
     protected:
         int _id;

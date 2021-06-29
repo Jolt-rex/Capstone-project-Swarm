@@ -12,11 +12,12 @@ class Enemy;
 class Tower : public Entity
 {
     public:
-        Tower(int id, double x, double y);
-        ~Tower();
+        Tower(int id, double x, double y, std::shared_ptr<Model> model);
 
         void simulate();
         void run();
+
+        void destroyTower() { _destroyed = true; }
 
     private:
         int _missiles;
@@ -24,6 +25,7 @@ class Tower : public Entity
 
         // shared ptr to the model to send destroy message
         std::shared_ptr<Model> _model;
+        bool _destroyed;
 };
 
 
