@@ -114,6 +114,11 @@ void Graphics::renderFrame()
         cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 3, cv::Scalar(255, 0 ,255), -1);
     }
 
+    // draw text
+    cv::putText(_imageStack[1], "Enemies: " + std::to_string(_model->_enemies.size()), cv::Point2d(5, 20), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Towers: " + std::to_string(_model->_towers.size()), cv::Point2d(5, 45), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Missiles: " + std::to_string(_model->_missiles.size()), cv::Point2d(5, 70), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+
     // display the background and overlay image
     float opacity = 0.85;
     cv::addWeighted(_imageStack[1], opacity, _imageStack[0], 1.0 - opacity, 0, _imageStack[2]);
