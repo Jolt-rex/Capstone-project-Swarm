@@ -4,13 +4,15 @@
 #include <memory>
 #include "Enemy.h"
 #include "Entity.h"
+#include "Model.h"
 
 class Enemy;
+class Model;
 
 class Missile : public Entity
 {
     public:
-        Missile(int id, int x, int y, int speed, std::shared_ptr<Enemy> &target);
+        Missile(int id, int x, int y, int speed, std::weak_ptr<Enemy> target, std::weak_ptr<Model> model);
         ~Missile();
 
         void simulate();
@@ -20,9 +22,8 @@ class Missile : public Entity
     private:
         int _speed;
         bool _destroyed;
-        std::shared_ptr<Enemy> _target;
-    
-
+        std::weak_ptr<Enemy> _target;
+        std::weak_ptr<Model> _model;
 };
 
 #endif

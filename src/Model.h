@@ -35,8 +35,10 @@ class Model
         void killEnemy(int id);
 
         void moveMissileToModel(std::unique_ptr<Missile> &missile);
+        void destroyMissile(int id);
 
         std::vector<std::shared_ptr<Enemy>> _enemies;
+
         std::vector<std::unique_ptr<Tower>> _towers;
         std::vector<std::unique_ptr<Missile>> _missiles;
 

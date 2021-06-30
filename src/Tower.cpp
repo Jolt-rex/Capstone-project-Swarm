@@ -6,11 +6,11 @@
 #include "Entity.h"
 #include "Tower.h"
 
-Tower::Tower(int id, double x, double y, std::shared_ptr<Model> model) : Entity(id, x, y)
+Tower::Tower(int id, double x, double y, std::weak_ptr<Model> model) : Entity(id, x, y)
 {
     std::cout << "Creating tower #" << id << std::endl;
     _model = model;
-    _destroyed = false;
+    _active = false;
     this->simulate();
 }
 
@@ -23,17 +23,22 @@ void Tower::simulate()
 // while loop
 void Tower::run()
 {
-    while(!_destroyed)
+    _active = true;
+    while(_active)
     {
         // wait 2 seconds
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-        if(_model->_enemies.size() > 0)
+
+        // convert weak_ptr to shared_ptr and check it for null
+        if(auto model = _model.lock())
         {
-            std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100, _model->_enemies.back());
-            _model->moveMissileToModel(missile);
+            if(model->_enemies.size() > 0)
+            {
+                std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100, model->_enemies.back(), _model);
+                model->moveMissileToModel(missile);
+            }
         }
     }
-
 }
 

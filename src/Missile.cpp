@@ -6,11 +6,13 @@
 
 #include "Missile.h"
 
-Missile::Missile(int id, int x, int y, int speed, std::shared_ptr<Enemy> &target) : Entity(id, x, y)
+Missile::Missile(int id, int x, int y, int speed, std::weak_ptr<Enemy> target, std::weak_ptr<Model> model) : Entity(id, x, y)
 {
     _destroyed = false;
     _speed = speed;
-    _target = target;
+    _target = std::move(target);
+    _model = std::move(model);
+
     std::cout << "Missle #" << id << " created" << std::endl;
 }
 
@@ -21,14 +23,12 @@ Missile::~Missile()
 
 void Missile::simulate()
 {
+    std::cout << "Simulating missile.. " << std::endl;
     _threads.emplace_back(std::thread(&Missile::launch, this));
 }
 
 void Missile::launch()
 {
-    double initialVelocity[] { 0.0, 4.0 };
-
-
     // start clock for movement calculation
     auto lastUpdate = std::chrono::system_clock::now(); 
 
@@ -37,20 +37,34 @@ void Missile::launch()
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         
-        // move towards target
-        long timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
-        double position = 0.0;
-
-        if(timeDifference >= 1)
+        if(auto target = _target.lock())
         {
-            double distanceToTarget = std::sqrt(std::pow((_x - _target->getX()), 2) + (std::pow((_y - _target->getY()), 2)));
+            // move towards target
+            long timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
+            double position = 0.0;
 
-            position += _speed * timeDifference / 1000.0;
+            if(timeDifference >= 1)
+            {
+                double distanceToTarget = std::sqrt(std::pow((_x - target->getX()), 2) + (std::pow((_y - target->getY()), 2)));
 
-            double distanceTravelledRatio = position / distanceToTarget;
+                position += _speed * timeDifference / 1000.0;
 
-            _x = _x + distanceTravelledRatio * (_target->getX() - _x);
-            _y = _y + distanceTravelledRatio * (_target->getY() - _y);
+                double distanceTravelledRatio = position / distanceToTarget;
+
+                _x = _x + distanceTravelledRatio * (target->getX() - _x);
+                _y = _y + distanceTravelledRatio * (target->getY() - _y);
+
+                // if we are 99% the distance to the enemy destroy the enemy and the missile
+                if(distanceTravelledRatio > 0.99)
+                {
+                    target->setToDead();
+                }
+            }
+        }
+        // if target not found, destroy this missile
+        else 
+        {
+            this->destroy();
         }
 
         lastUpdate = std::chrono::system_clock::now();
@@ -85,5 +99,9 @@ void Missile::launch()
 void Missile::destroy()
 {
     _destroyed = true;
+    if(auto model = _model.lock())
+    {
+        model->destroyMissile(_id);
+    }
 }
 

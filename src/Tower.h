@@ -12,20 +12,19 @@ class Enemy;
 class Tower : public Entity
 {
     public:
-        Tower(int id, double x, double y, std::shared_ptr<Model> model);
+        Tower(int id, double x, double y, std::weak_ptr<Model> model);
 
         void simulate();
         void run();
 
-        void destroyTower() { _destroyed = true; }
+        void deactivateTower() { _active = false; }
 
     private:
         int _missiles;
-        std::shared_ptr<Enemy> _target;
 
-        // shared ptr to the model to send destroy message
-        std::shared_ptr<Model> _model;
-        bool _destroyed;
+        // weak ptr to the model. using weak pointer to avoid circular relationship
+        std::weak_ptr<Model> _model;
+        bool _active;
 };
 
 

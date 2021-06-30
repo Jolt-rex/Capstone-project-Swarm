@@ -80,11 +80,19 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
 void Model::killEnemy(int id)
  {
     auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::shared_ptr<Enemy> &e) { return e->getId() == id; });
-    _enemies.erase(enemy);
+    if(enemy != _enemies.end()) 
+        _enemies.erase(enemy);
  }
 
  void Model::moveMissileToModel(std::unique_ptr<Missile> &missile)
  {
     _missiles.emplace_back(std::move(missile));
     _missiles.back()->simulate();
+ }
+
+ void Model::destroyMissile(int id)
+ {
+     auto missile = std::find_if(_missiles.begin(), _missiles.end(), [id](std::unique_ptr<Missile> &m) { return m->getId() == id; });
+     if(missile != _missiles.end())
+        _missiles.erase(missile);
  }
