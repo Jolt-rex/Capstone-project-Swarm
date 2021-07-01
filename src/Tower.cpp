@@ -29,17 +29,22 @@ void Tower::run()
     {
         u_lock.unlock();
         // wait 2 seconds
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
         u_lock.lock();
         // convert weak_ptr to shared_ptr and check it for null
         if(auto model = _model.lock())
         {
-            if(model->_enemies.size() > 0)
+            // iterate over the enemies and check if there are any that are untargeted
+            for(auto &enemy : model->_enemies)
             {
-
-                std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100, model->_enemies.back());
-                model->moveMissileToModel(missile);
+                if(!enemy->isTargeted())
+                {
+                    enemy->setTargeted(true);
+                    std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100, enemy);
+                    model->moveMissileToModel(missile);
+                    break;
+                }
             }
         }
     }

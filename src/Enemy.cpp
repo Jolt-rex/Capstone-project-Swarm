@@ -15,6 +15,7 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
     _path = path;
     _speed = speed;
     _isDead = false;
+    _isTargeted = false;
     _atGoal = false;
 }
 

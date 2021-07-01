@@ -43,14 +43,14 @@ void SpawnController::spawnEnemies()
     while(_running && _enemyCount < 20) 
     {
         // update every 1/10 of a second
-        std::this_thread::sleep_for(std::chrono::milliseconds(4000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
         // random int of which spawn point to select
         int randomSpawnPoint = dist(rng);
 
         std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
 
-        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 8);
+        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 15);
     } 
 
 }

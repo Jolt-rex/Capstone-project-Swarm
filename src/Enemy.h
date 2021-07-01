@@ -23,6 +23,9 @@ class Enemy : public Entity
 
         void simulate();
         void run();
+
+        bool isTargeted() { return _isTargeted; }
+        void setTargeted(bool targeted) { _isTargeted = targeted; }
         bool isDead() { return _isDead; }
         
     private:
@@ -31,7 +34,8 @@ class Enemy : public Entity
         double _posNodes = 0.0;
         bool _isDead;
         bool _atGoal;
-        
+        bool _isTargeted;
+
         std::vector<std::shared_ptr<Node>> _path;
         std::mutex _mutex;
 };
