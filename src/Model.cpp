@@ -85,6 +85,7 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
     _gameState = GameState::kRunning;
     _funds = 200;
     _thread = std::thread(&Model::cleanup, this);
+    
  }
 
 // iterate over enemies and missiles and remove if dead / destroyed

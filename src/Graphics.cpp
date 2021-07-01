@@ -10,6 +10,40 @@
 #include "Model.h"
 #include "Node.h"
 
+
+Graphics::Graphics(std::string mapName, std::shared_ptr<Model> model)
+{
+    _mapName = mapName;
+    _model = model;
+}
+
+Graphics::~Graphics()
+{
+    _thread.join();
+}
+
+void Graphics::simulate()
+{
+    _thread = std::thread(&Graphics::runGUI, this);
+}
+
+void Graphics::runGUI() 
+{
+    std::cout << "Running simulation" << std::endl;
+    this->loadBackgroundImage();
+    
+    cv::setMouseCallback(_windowName, mouseHandler, this);
+    _mouseState = kDeselected;
+    
+    // rendering loop
+    while(true) 
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        this->renderFrame();
+    }
+}
+
 void Graphics::mouseHandler(int event, int x, int y, int, void* userdata)
 {
     if(userdata != nullptr)
@@ -51,22 +85,6 @@ void Graphics::graphicsMouseHandler(int event, int x, int y)
     }
 }
 
-void Graphics::simulate() 
-{
-    std::cout << "Running simulation" << std::endl;
-    this->loadBackgroundImage();
-    
-    cv::setMouseCallback(_windowName, mouseHandler, this);
-    _mouseState = kDeselected;
-    
-    // rendering loop
-    while(true) 
-    {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
-        this->renderFrame();
-    }
-}
 
 void Graphics::loadBackgroundImage()
 {

@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <thread>
 #include <mutex>
+#include <string>
 
 #include "Entity.h"
 #include "Model.h"
@@ -18,34 +20,30 @@ class Graphics
 {
     public:
         //constructor / destructor
+        Graphics(std::string mapname, std::shared_ptr<Model> model);
+        ~Graphics();
 
         // getters / setters
-        void setMapName(std::string mapName) { _mapName = mapName; }
-        void setModel(std::shared_ptr<Model> model) { _model = model; }
 
         // cv lib event handler
         static void mouseHandler(int event, int x, int y, int, void* userdata);
         void graphicsMouseHandler(int event, int x, int y);
-
-        void simulate();
-        void runLoop();
         void loadBackgroundImage();
         void renderFrame();
 
+        void simulate();
+        void runGUI();
+        void runLoop();
+        
     private:
         std::shared_ptr<Model> _model;
-
         MouseState _mouseState;
         
-        // _imageStack elements are: 
-        // [0] -> original image
-        // [1] -> overlay entities
-        // [2] -> [0] and [1] combined for final render to screen
         std::vector<cv::Mat> _imageStack;
-
         std::string _mapName;
         std::string _windowName;
 
+        std::thread _thread;
         std::mutex _mutex;
 };
 

@@ -24,7 +24,6 @@ class Tower : public Entity
         void deactivateTower() { _active = false; }
 
     private:
-        int _missiles;
         int _range;
 
         // weak ptr to the model. using weak pointer to avoid circular relationship

@@ -16,22 +16,15 @@ int main(int argc, char** argv) {
     //     return 0;
     // }    
 
+    std::string mapname = "brisbane";
     // load entities from xml file into entities vector of shared ptrs
-    std::shared_ptr<Model> model = std::make_shared<Model>("brisbane");
-
+    std::shared_ptr<Model> model = std::make_shared<Model>(mapname);
     std::unique_ptr<SpawnController> spawnController = std::make_unique<SpawnController>(model);
+    std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>(mapname, model);
 
-    std::unique_ptr<Graphics> graphics = std::make_unique<Graphics>();
-
-    graphics->setMapName("brisbane");
-    graphics->setModel(model);
-
-    std::thread graphicsThread(&Graphics::simulate, graphics.get());
-
+    graphics->simulate();
     model->simulate();    
     spawnController->simulate();
-
-    graphicsThread.join();
 
     return 0;
 }
