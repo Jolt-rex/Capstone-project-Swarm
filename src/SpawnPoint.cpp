@@ -15,7 +15,7 @@ SpawnPoint::SpawnPoint(std::shared_ptr<Model> model, std::shared_ptr<Node> origi
     RoutePlanner rp(model, origin, goal);
     _path = rp.AStarSearch();
 
-    std::cout << "Creating spawn point. Start:" << _origin->getId() << " Goal:" << _goal->getId() << " Path length:" << _path.size() << " Model node length:" << _model->getNodes().size() << std::endl;
+    // std::cout << "Creating spawn point. Start:" << _origin->getId() << " Goal:" << _goal->getId() << " Path length:" << _path.size() << " Model node length:" << _model->getNodes().size() << std::endl;
 }
 
 void SpawnPoint::SpawnEnemy(int id, int speed)

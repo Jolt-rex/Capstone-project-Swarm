@@ -19,14 +19,14 @@ class Enemy : public Entity
 
         // getter / setter
         std::vector<std::shared_ptr<Node>> getRoute() { return _path; }
-        void setToDead() { _isDead = true; }
 
         void simulate();
         void run();
 
-        bool isTargeted() { return _isTargeted; }
-        void setTargeted(bool targeted) { _isTargeted = targeted; }
-        bool isDead() { return _isDead; }
+        bool isTargeted();
+        void setTargeted(bool targeted);
+        bool isDead();
+        void setToDead();
         
     private:
         int _speed;

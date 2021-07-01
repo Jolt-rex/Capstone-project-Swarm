@@ -10,7 +10,7 @@
 Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) : 
     Entity(id, path.front()->getX(), path.front()->getY())
 {
-    std::cout << "Constructing enemy #" << id << " path length: " << path.size() << std::endl;
+    // std::cout << "Constructing enemy #" << id << " path length: " << path.size() << std::endl;
 
     _path = path;
     _speed = speed;
@@ -21,7 +21,31 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
 
 Enemy::~Enemy()
 {
-    std::cout << "Enemy #" << _id << " destructor" << std::endl;
+    // std::cout << "Enemy #" << _id << " destructor" << std::endl;
+}
+
+bool Enemy::isTargeted()
+{
+    //std::unique_lock<std::mutex> u_lock(_mutex);
+    return _isTargeted;
+}
+
+void Enemy::setTargeted(bool targeted)
+{
+    //std::unique_lock<std::mutex> u_lock(_mutex);
+    _isTargeted = targeted;
+}
+
+bool Enemy::isDead()
+{
+    //std::unique_lock<std::mutex> u_lock(_mutex);
+    return _isDead; 
+}
+
+void Enemy::setToDead()
+{   
+    //std::unique_lock<std::mutex> u_lock(_mutex);
+    _isDead = true;
 }
 
 void Enemy::simulate()

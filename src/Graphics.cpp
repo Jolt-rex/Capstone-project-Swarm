@@ -25,7 +25,7 @@ void Graphics::graphicsMouseHandler(int event, int x, int y)
         
         // directly construct the tower on the game model
         int towerId = _model->_towers.size() + 1;
-        _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y, _model));
+        _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y, 150, _model));
     }
 }
 
@@ -96,7 +96,10 @@ void Graphics::renderFrame()
     {
         int x = tower->getX();
         int y = tower->getY();
+        // tower object
         cv::rectangle(_imageStack[1], cv::Point2d(x - 2, y - 12), cv::Point2d(x + 2, y), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
+        // range circle
+        cv::circle(_imageStack[1], cv::Point2d(x, y), tower->getRange(), cv::Scalar(0, 0, 0), 1);
     }
 
     // draw enemies

@@ -14,7 +14,9 @@ class Enemy;
 class Tower : public Entity
 {
     public:
-        Tower(int id, double x, double y, std::weak_ptr<Model> model);
+        Tower(int id, double x, double y, int range, std::weak_ptr<Model> model);
+
+        int getRange() { return _range; }
 
         void simulate();
         void run();
@@ -23,6 +25,7 @@ class Tower : public Entity
 
     private:
         int _missiles;
+        int _range;
 
         // weak ptr to the model. using weak pointer to avoid circular relationship
         std::weak_ptr<Model> _model;

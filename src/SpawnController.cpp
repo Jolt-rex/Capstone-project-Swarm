@@ -48,7 +48,7 @@ void SpawnController::spawnEnemies()
         // random int of which spawn point to select
         int randomSpawnPoint = dist(rng);
 
-        std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
+        // std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
 
         _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 15);
     } 

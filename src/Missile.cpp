@@ -12,17 +12,17 @@ Missile::Missile(int id, int x, int y, int speed, std::shared_ptr<Enemy> target)
     _speed = speed;
     _target = std::move(target);
 
-    std::cout << "Missle #" << id << " created" << std::endl;
+    // std::cout << "Missle #" << id << " created" << std::endl;
 }
 
 Missile::~Missile()
 {
-    std::cout << "Destroying missile #" << _id << std::endl;
+    // std::cout << "Destroying missile #" << _id << std::endl;
 }
 
 void Missile::simulate()
 {
-    std::cout << "Simulating missile.. " << std::endl;
+    // std::cout << "Simulating missile.. " << std::endl;
     _threads.emplace_back(std::thread(&Missile::launch, this));
 }
 
