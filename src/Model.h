@@ -34,10 +34,7 @@ class Model
         void setGameState(GameState gs) { _gameState = gs; }
 
         void moveEnemyToModel(std::shared_ptr<Enemy> &enemy);
-        void killEnemy(int id);
-
         void moveMissileToModel(std::unique_ptr<Missile> &missile);
-        void destroyMissile(int id);
 
         void simulate();
         void cleanup();

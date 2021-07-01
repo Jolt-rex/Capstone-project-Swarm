@@ -64,7 +64,6 @@ Model::Model(std::string map)
         firstNode->AddConnected(secondNode);
         secondNode->AddConnected(firstNode);
     }
-    _gameState = GameState::kRunning;
 }
 
 void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
@@ -73,32 +72,15 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
     _enemies.back()->simulate();
 }
 
-// find the enemy with the model referece to it and remove it from the vector
-// the shared_ptr will go out of scope and the object will be destroyed
-// once the missile shared_ptr is destroyed also
-// this means we must ensure only one missle can target the enemy at any time
-void Model::killEnemy(int id)
- {
-    auto enemy = std::find_if(_enemies.begin(), _enemies.end(), [id](std::shared_ptr<Enemy> &e) { return e->getId() == id; });
-    if(enemy != _enemies.end()) 
-        _enemies.erase(enemy);
- }
-
  void Model::moveMissileToModel(std::unique_ptr<Missile> &missile)
  {
     _missiles.emplace_back(std::move(missile));
     _missiles.back()->simulate();
  }
-
- void Model::destroyMissile(int id)
- {
-     auto missile = std::find_if(_missiles.begin(), _missiles.end(), [id](std::unique_ptr<Missile> &m) { return m->getId() == id; });
-     if(missile != _missiles.end())
-        _missiles.erase(missile);
- }
  
  void Model::simulate()
  {
+    _gameState = GameState::kRunning;
      _thread = std::thread(&Model::cleanup, this);
  }
 
@@ -112,7 +94,17 @@ void Model::killEnemy(int id)
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         u_lock.lock();
-        _enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(), [](const std::shared_ptr<Enemy> &enemy) { return enemy->isDead(); }));
-        _missiles.erase(std::remove_if(_missiles.begin(), _missiles.end(), [](const std::unique_ptr<Missile> &missile) { return missile->isDestroyed(); }));
+        if(_missiles.size() > 0){
+            _missiles.erase(std::remove_if(_missiles.begin(), _missiles.end(), [](const std::unique_ptr<Missile> &missile) { 
+                if(missile->isDestroyed()) std::cout << "Destroying missile from Model vector" << std::endl;
+                return missile->isDestroyed(); 
+            }), _missiles.end());
+        }
+        if(_enemies.size() > 0) {
+            _enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(), [](const std::shared_ptr<Enemy> &enemy) { 
+                if(enemy->isDead()) std::cout << "Destroying enemy from Model vector" << std::endl;
+                return enemy->isDead(); 
+            }), _enemies.end());
+        }
      }
  }
