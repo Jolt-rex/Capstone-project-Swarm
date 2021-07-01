@@ -97,7 +97,7 @@ void Graphics::renderFrame()
         int x = tower->getX();
         int y = tower->getY();
         // tower object
-        cv::rectangle(_imageStack[1], cv::Point2d(x - 2, y - 12), cv::Point2d(x + 2, y), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
+        cv::rectangle(_imageStack[1], cv::Point2d(x - 6, y - 2), cv::Point2d(x + 6, y + 2), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
         // range circle
         cv::circle(_imageStack[1], cv::Point2d(x, y), tower->getRange(), cv::Scalar(0, 0, 0), 1);
     }
@@ -114,7 +114,7 @@ void Graphics::renderFrame()
     // draw missiles
     for(const auto &missile : _model->_missiles)
     {
-        cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 3, cv::Scalar(255, 0 ,255), -1);
+        cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 2, cv::Scalar(255, 0 ,255), -1);
     }
 
     // draw text

@@ -49,7 +49,7 @@ void Tower::run()
                 // iterate over the enemies and check if there are any that are untargeted
                 for(auto &enemy : model->_enemies)
                 {
-                    if(!enemy->isTargeted())
+                    if(enemy && !enemy->isTargeted())
                     {
                         // check target is in range
                         double distance = std::sqrt(std::pow((_x - enemy->getX()), 2) + (std::pow((_y - enemy->getY()), 2)));
