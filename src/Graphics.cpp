@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 #include <thread>
+#include <mutex>
 #include <opencv2/core.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/highgui.hpp>
@@ -20,12 +21,33 @@ void Graphics::mouseHandler(int event, int x, int y, int, void* userdata)
 
 void Graphics::graphicsMouseHandler(int event, int x, int y)
 {
-    if(event == cv::EVENT_LBUTTONDOWN) {
+    if(event == cv::EVENT_LBUTTONDOWN) 
+    {
         std::cout << "Mouse location: X:" << x << " Y:" << y << std::endl;
+
+        // if we click inside the T button
+        if((x > 0 && x <= 50) && (y >= 120 && y <= 170))
+        {
+            _mouseState = (_mouseState == kTowerBuild ? kDeselected : kTowerBuild);
+            return;
+        }
         
-        // directly construct the tower on the game model
-        int towerId = _model->_towers.size() + 1;
-        _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y, 150, _model));
+        // if we click somewhere else and are in tower building option
+        if(_mouseState == kTowerBuild) 
+        {
+            int funds = _model->getFunds();
+            if(funds >= 100)
+            {
+                // directly construct the tower on the game model
+                int towerId = _model->_towers.size() + 1;
+                _model->_towers.emplace_back(std::make_unique<Tower>(towerId, x, y, 150, _model));
+                _model->setFunds(funds - 100);
+            }
+        }
+    }
+    if(event == cv::EVENT_RBUTTONDOWN) 
+    {
+        _mouseState = kDeselected;
     }
 }
 
@@ -35,6 +57,7 @@ void Graphics::simulate()
     this->loadBackgroundImage();
     
     cv::setMouseCallback(_windowName, mouseHandler, this);
+    _mouseState = kDeselected;
     
     // rendering loop
     while(true) 
@@ -61,6 +84,8 @@ void Graphics::renderFrame()
     // reset elements [1] and [2] to original image
     _imageStack[1] = _imageStack[0].clone();
     _imageStack[2] = _imageStack[0].clone();
+
+    std::unique_lock<std::mutex> u_lock(_mutex);
 
     // create node entities to be overlaid from _model data
     for(const auto &node : _model->getNodes()) {
@@ -117,10 +142,20 @@ void Graphics::renderFrame()
         cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 2, cv::Scalar(255, 0 ,255), -1);
     }
 
+    // draw controll box
+    cv::rectangle(_imageStack[1], cv::Point2d(0, 0), cv::Point2d(170, 120), cv::Scalar(0, 0, 0), cv::FILLED);
+
+    // tower button background and text
+    cv::rectangle(_imageStack[1], cv::Point2d(0, 120), cv::Point2d(50, 170), (_mouseState == kDeselected ? cv::Scalar(20, 20, 20) : cv::Scalar(0, 255, 0)), cv::FILLED);
+    cv::putText(_imageStack[1], "T", cv::Point2d(15, 155), cv::FONT_HERSHEY_PLAIN, 2, (_mouseState == kDeselected ? cv::Scalar(255, 255, 255) : cv::Scalar(0, 0, 0)), 2);
+    
     // draw text
-    cv::putText(_imageStack[1], "Enemies: " + std::to_string(_model->_enemies.size()), cv::Point2d(5, 20), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
-    cv::putText(_imageStack[1], "Towers: " + std::to_string(_model->_towers.size()), cv::Point2d(5, 45), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
-    cv::putText(_imageStack[1], "Missiles: " + std::to_string(_model->_missiles.size()), cv::Point2d(5, 70), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Funds: " + std::to_string(_model->getFunds()), cv::Point2d(5, 20), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Enemies: " + std::to_string(_model->_enemies.size()), cv::Point2d(5, 45), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Towers: " + std::to_string(_model->_towers.size()), cv::Point2d(5, 70), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Missiles: " + std::to_string(_model->_missiles.size()), cv::Point2d(5, 95), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+
+
 
     // display the background and overlay image
     float opacity = 0.85;

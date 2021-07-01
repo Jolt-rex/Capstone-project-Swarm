@@ -4,10 +4,15 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <mutex>
 
 #include "Entity.h"
 #include "Model.h"
 #include <opencv2/core.hpp>
+
+enum MouseState {
+    kDeselected, kTowerBuild
+};
 
 class Graphics
 {
@@ -29,6 +34,8 @@ class Graphics
 
     private:
         std::shared_ptr<Model> _model;
+
+        MouseState _mouseState;
         
         // _imageStack elements are: 
         // [0] -> original image
@@ -38,6 +45,8 @@ class Graphics
 
         std::string _mapName;
         std::string _windowName;
+
+        std::mutex _mutex;
 };
 
 #endif

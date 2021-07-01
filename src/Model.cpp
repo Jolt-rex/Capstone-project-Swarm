@@ -68,12 +68,14 @@ Model::Model(std::string map)
 
 void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
 {
+    std::unique_lock<std::mutex> u_lock(_mutex);
     _enemies.emplace_back(std::move(enemy));
     _enemies.back()->simulate();
 }
 
  void Model::moveMissileToModel(std::unique_ptr<Missile> &missile)
  {
+     std::unique_lock<std::mutex> u_lock(_mutex);
     _missiles.emplace_back(std::move(missile));
     _missiles.back()->simulate();
  }
@@ -81,7 +83,8 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
  void Model::simulate()
  {
     _gameState = GameState::kRunning;
-     _thread = std::thread(&Model::cleanup, this);
+    _funds = 200;
+    _thread = std::thread(&Model::cleanup, this);
  }
 
 // iterate over enemies and missiles and remove if dead / destroyed
@@ -101,8 +104,9 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
             }), _missiles.end());
         }
         if(_enemies.size() > 0) {
-            _enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(), [](const std::shared_ptr<Enemy> &enemy) { 
+            _enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(), [&](const std::shared_ptr<Enemy> &enemy) { 
                 if(enemy->isDead()) std::cout << "Destroying enemy from Model vector" << std::endl;
+                if(enemy->isDead()) _funds += 20;
                 return enemy->isDead(); 
             }), _enemies.end());
         }

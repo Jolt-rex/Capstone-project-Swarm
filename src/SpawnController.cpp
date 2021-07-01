@@ -40,7 +40,7 @@ void SpawnController::spawnEnemies()
     
     // spawn controller loop to spawn enemies at random times
     auto spawnTime = std::chrono::system_clock::now();
-    while(_running && _enemyCount < 20) 
+    while(_running && _enemyCount < 200) 
     {
         // update every 1/10 of a second
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
@@ -50,7 +50,7 @@ void SpawnController::spawnEnemies()
 
         // std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
 
-        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 15);
+        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 30);
     } 
 
 }

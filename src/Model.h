@@ -21,6 +21,7 @@ enum GameState {
     kRunning, kWon, kLost
 };
 
+
 class Model
 {
     public:
@@ -32,6 +33,9 @@ class Model
         std::shared_ptr<Node> getGoal() { return _goal; }
         GameState getGameState() { return _gameState; }
         void setGameState(GameState gs) { _gameState = gs; }
+        int getFunds() { return _funds; }
+        void setFunds(int funds) { _funds = funds; }
+
 
         void moveEnemyToModel(std::shared_ptr<Enemy> &enemy);
         void moveMissileToModel(std::unique_ptr<Missile> &missile);
@@ -49,10 +53,11 @@ class Model
         std::vector<std::shared_ptr<Node>> _nodes;
         std::shared_ptr<Node> _goal;
 
-        
-        GameState _gameState; 
+        GameState _gameState;
         std::mutex _mutex;
         std::thread _thread;
+
+        int _funds;
 };
 
 #endif
