@@ -5,6 +5,8 @@
 #include <vector>
 #include <memory>
 #include <string>
+#include <thread>
+#include <mutex>
 #include "Entity.h"
 #include "Node.h"
 #include "Enemy.h"
@@ -37,6 +39,9 @@ class Model
         void moveMissileToModel(std::unique_ptr<Missile> &missile);
         void destroyMissile(int id);
 
+        void simulate();
+        void cleanup();
+
         std::vector<std::shared_ptr<Enemy>> _enemies;
 
         std::vector<std::unique_ptr<Tower>> _towers;
@@ -49,7 +54,8 @@ class Model
 
         
         GameState _gameState; 
-
+        std::mutex _mutex;
+        std::thread _thread;
 };
 
 #endif

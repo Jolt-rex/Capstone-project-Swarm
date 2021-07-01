@@ -103,7 +103,7 @@ void Graphics::renderFrame()
     for(const auto &enemy : _model->_enemies)
     {
         //for(const auto &node : enemy->getRoute()) {
-            cv::circle(_imageStack[1], cv::Point2d(enemy->getX(), enemy->getY()), 4, cv::Scalar(255, 0, 0), -1);
+            cv::circle(_imageStack[1], cv::Point2d(enemy->getX(), enemy->getY()), 4, cv::Scalar(0, 0, 255), -1);
         //}
         //std::cout << "Enemy location x=" << enemy->getX() << " y=" << enemy->getY() << std::endl;
     }

@@ -96,3 +96,23 @@ void Model::killEnemy(int id)
      if(missile != _missiles.end())
         _missiles.erase(missile);
  }
+ 
+ void Model::simulate()
+ {
+     _thread = std::thread(&Model::cleanup, this);
+ }
+
+// iterate over enemies and missiles and remove if dead / destroyed
+ void Model::cleanup()
+ {
+     std::unique_lock<std::mutex> u_lock(_mutex);
+     while(_gameState == kRunning)
+     {
+        u_lock.unlock();
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        u_lock.lock();
+        _enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(), [](const std::shared_ptr<Enemy> &enemy) { return enemy->isDead(); }));
+        _missiles.erase(std::remove_if(_missiles.begin(), _missiles.end(), [](const std::unique_ptr<Missile> &missile) { return missile->isDestroyed(); }));
+     }
+ }

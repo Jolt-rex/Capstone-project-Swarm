@@ -50,7 +50,7 @@ void SpawnController::spawnEnemies()
 
         std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
 
-        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 4);
+        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 8);
     } 
 
 }

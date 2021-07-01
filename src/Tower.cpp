@@ -23,19 +23,22 @@ void Tower::simulate()
 // while loop
 void Tower::run()
 {
+    std::unique_lock<std::mutex> u_lock(_mutex);
     _active = true;
     while(_active)
     {
+        u_lock.unlock();
         // wait 2 seconds
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
 
-
+        u_lock.lock();
         // convert weak_ptr to shared_ptr and check it for null
         if(auto model = _model.lock())
         {
             if(model->_enemies.size() > 0)
             {
-                std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100, model->_enemies.back(), _model);
+
+                std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 100, model->_enemies.back());
                 model->moveMissileToModel(missile);
             }
         }

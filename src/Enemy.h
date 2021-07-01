@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <mutex>
 #include "Model.h"
 #include "Node.h"
 #include "Entity.h"
@@ -22,6 +23,7 @@ class Enemy : public Entity
 
         void simulate();
         void run();
+        bool isDead() { return _isDead; }
         
     private:
         int _speed;
@@ -29,13 +31,9 @@ class Enemy : public Entity
         double _posNodes = 0.0;
         bool _isDead;
         bool _atGoal;
-
-        std::shared_ptr<Node> _goal;
+        
         std::vector<std::shared_ptr<Node>> _path;
-
-        // access to the model for sending message to kill / 
-        // remove this enemy from the model when dead
-        std::shared_ptr<Model> _model;
+        std::mutex _mutex;
 };
 
 #endif

@@ -10,7 +10,7 @@
 Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) : 
     Entity(id, path.front()->getX(), path.front()->getY())
 {
-    std::cout << "Constructing enemy #" << id << std::endl;
+    std::cout << "Constructing enemy #" << id << " path length: " << path.size() << std::endl;
 
     _path = path;
     _speed = speed;
@@ -39,18 +39,23 @@ void Enemy::run()
     // start clock for movement calculation
     auto lastUpdate = std::chrono::system_clock::now(); 
 
+    std::unique_lock<std::mutex> u_lock(_mutex);
     // get the x and y values for nodes we are moving between    
     double x1 = fromNode->get()->getX();
     double y1 = fromNode->get()->getY();
     double x2 = toNode->get()->getX();
     double y2 = toNode->get()->getY();
+    u_lock.unlock();
+
     double distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
 
+    u_lock.lock();
     while(!_atGoal && !_isDead)
     {
             //std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
             //std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
 
+            u_lock.unlock();
             // sleep 1ms to lower CPU demand
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
@@ -65,9 +70,10 @@ void Enemy::run()
                 double distanceTravelledRatio = _posNodes / distanceBetweenNodes;
                 //std::cout << "Speed: " << _speed << " Time Diff: " << timeDifference << " Pos between nodes: " << _posNodes << " Distance ratio: " << distanceTravelledRatio << std::endl;
 
+                u_lock.lock();
                 _x = x1 + distanceTravelledRatio * (x2 - x1);
                 _y = y1 + distanceTravelledRatio * (y2 - y1);
-                
+
                 // if we are 99% of the distance to the toNode
                 // iterate to both node references to the next two in the path
                 if(distanceTravelledRatio > 0.99) {
@@ -77,6 +83,7 @@ void Enemy::run()
                     
                     // if we have passed the last node in the path, set the atGoal member to exit the while loop
                     if(toNode == _path.end()) { 
+                        std::cout << "Emeny #" << _id << " at goal" << std::endl;
                         _atGoal = true; 
                         break;    
                     }
@@ -95,5 +102,6 @@ void Enemy::run()
             lastUpdate = std::chrono::system_clock::now();
     }
     if(_atGoal) std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
+    // end game and set enemy to dead
     if(_isDead) std::cout << "Enemy #" << _id << " was killed..." << std::endl;
 }
