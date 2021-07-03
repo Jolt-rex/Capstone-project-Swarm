@@ -21,30 +21,30 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
 
 Enemy::~Enemy()
 {
-    // std::cout << "Enemy #" << _id << " destructor" << std::endl;
+    std::cout << "Enemy #" << _id << " destroyed" << std::endl;
 }
 
 bool Enemy::isTargeted()
 {
-    //std::unique_lock<std::mutex> u_lock(_mutex);
+    std::unique_lock<std::mutex> u_lock(_mutex);
     return _isTargeted;
 }
 
 void Enemy::setTargeted(bool targeted)
 {
-    //std::unique_lock<std::mutex> u_lock(_mutex);
+    std::unique_lock<std::mutex> u_lock(_mutex);
     _isTargeted = targeted;
 }
 
 bool Enemy::isDead()
 {
-    //std::unique_lock<std::mutex> u_lock(_mutex);
+    std::unique_lock<std::mutex> u_lock(_mutex);
     return _isDead; 
 }
 
 void Enemy::setToDead()
 {   
-    //std::unique_lock<std::mutex> u_lock(_mutex);
+    std::unique_lock<std::mutex> u_lock(_mutex);
     _isDead = true;
 }
 
@@ -77,56 +77,53 @@ void Enemy::run()
     u_lock.lock();
     while(!_atGoal && !_isDead)
     {
-            //std::cout << "Enemy moving between nodes: (" << x1 << "," << y1 << "), (" << x2 << "," << y2 << ")\n";
-            //std::cout << "Distance between nodes: " << distanceBetweenNodes << std::endl;
+        u_lock.unlock();
+        // sleep 1ms to lower CPU demand
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-            u_lock.unlock();
-            // sleep 1ms to lower CPU demand
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        // calculate time difference
+        long timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
+        if(timeDifference >= 1)
+        {
+            // determine how far along the path between the nodes we are
+            _posNodes += _speed * timeDifference / 1000.0;
 
-            // calculate time difference
-            long timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastUpdate).count();
-            if(timeDifference >= 1)
-            {
-                // determine how far along the path between the nodes we are
-                _posNodes += _speed * timeDifference / 1000.0;
+            // get distance between the nodes
+            double distanceTravelledRatio = _posNodes / distanceBetweenNodes;
+            //std::cout << "Speed: " << _speed << " Time Diff: " << timeDifference << " Pos between nodes: " << _posNodes << " Distance ratio: " << distanceTravelledRatio << std::endl;
 
-                // get distance between the nodes
-                double distanceTravelledRatio = _posNodes / distanceBetweenNodes;
-                //std::cout << "Speed: " << _speed << " Time Diff: " << timeDifference << " Pos between nodes: " << _posNodes << " Distance ratio: " << distanceTravelledRatio << std::endl;
+            u_lock.lock();
+            _x = x1 + distanceTravelledRatio * (x2 - x1);
+            _y = y1 + distanceTravelledRatio * (y2 - y1);
 
-                u_lock.lock();
-                _x = x1 + distanceTravelledRatio * (x2 - x1);
-                _y = y1 + distanceTravelledRatio * (y2 - y1);
-
-                // if we are 99% of the distance to the toNode
-                // iterate to both node references to the next two in the path
-                if(distanceTravelledRatio > 0.99) {
-                    _posNodes = 0.0;
-                    fromNode++;
-                    toNode++;
-                    
-                    // if we have passed the last node in the path, set the atGoal member to exit the while loop
-                    if(toNode == _path.end()) { 
-                        std::cout << "Emeny #" << _id << " at goal" << std::endl;
-                        _atGoal = true; 
-                        break;    
-                    }
-
-                    // update x and y values for nodes we are moving between
-                    x1 = fromNode->get()->getX();
-                    y1 = fromNode->get()->getY();
-                    x2 = toNode->get()->getX();
-                    y2 = toNode->get()->getY();
-
-                    // re calculate distance between the next iteration of node pairs
-                    distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
+            // if we are 99% of the distance to the toNode
+            // iterate to both node references to the next two in the path
+            if(distanceTravelledRatio > 0.99) {
+                _posNodes = 0.0;
+                fromNode++;
+                toNode++;
+                
+                // if we have passed the last node in the path, set the atGoal member to exit the while loop
+                if(toNode == _path.end()) { 
+                    //std::cout << "Emeny #" << _id << " at goal" << std::endl;
+                    _atGoal = true; 
+                    break;    
                 }
+
+                // update x and y values for nodes we are moving between
+                x1 = fromNode->get()->getX();
+                y1 = fromNode->get()->getY();
+                x2 = toNode->get()->getX();
+                y2 = toNode->get()->getY();
+
+                // re calculate distance between the next iteration of node pairs
+                distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
             }
-            // reset last update to current time
-            lastUpdate = std::chrono::system_clock::now();
+        }
+        // reset last update to current time
+        lastUpdate = std::chrono::system_clock::now();
     }
-    if(_atGoal) std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
+    //if(_atGoal) std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
     // end game and set enemy to dead
-    if(_isDead) std::cout << "Enemy #" << _id << " was killed..." << std::endl;
+    //if(_isDead) std::cout << "Enemy #" << _id << " was killed..." << std::endl;
 }

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <thread>
+#include <mutex>
 
 // Base class for all objects on the map
 class Entity
@@ -13,8 +14,8 @@ class Entity
 
         void setLocation(double x, double y);
         int getId() { return _id; }
-        const double &getX() { return _x; }
-        const double &getY() { return _y; }
+        const double getX();
+        const double getY();
 
     protected:
         int _id;
@@ -22,6 +23,7 @@ class Entity
         double _y;
 
         std::vector<std::thread> _threads;
+        std::mutex _mutex;
 };
 
 #endif

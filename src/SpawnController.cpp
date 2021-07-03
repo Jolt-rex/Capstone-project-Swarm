@@ -5,6 +5,8 @@
 
 #include "SpawnController.h"
 
+#define SPAWN_INTERVAL 250
+
 SpawnController::SpawnController(std::shared_ptr<Model> model)
 {
     // generate spawn points from the model
@@ -40,17 +42,17 @@ void SpawnController::spawnEnemies()
     
     // spawn controller loop to spawn enemies at random times
     auto spawnTime = std::chrono::system_clock::now();
-    while(_running && _enemyCount < 200) 
+    while(_running && _enemyCount < 1000) 
     {
-        // update every 1/10 of a second
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        // update every 1 second
+        std::this_thread::sleep_for(std::chrono::milliseconds(SPAWN_INTERVAL));
 
         // random int of which spawn point to select
         int randomSpawnPoint = dist(rng);
 
         // std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
 
-        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 30);
+        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 100);
     } 
 
 }

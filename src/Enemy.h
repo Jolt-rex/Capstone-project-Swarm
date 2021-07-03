@@ -37,7 +37,6 @@ class Enemy : public Entity
         bool _isTargeted;
 
         std::vector<std::shared_ptr<Node>> _path;
-        std::mutex _mutex;
 };
 
 #endif

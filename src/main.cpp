@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
     // }    
 
     std::string mapname = "brisbane";
+    
     // load entities from xml file into entities vector of shared ptrs
     std::shared_ptr<Model> model = std::make_shared<Model>(mapname);
     std::unique_ptr<SpawnController> spawnController = std::make_unique<SpawnController>(model);

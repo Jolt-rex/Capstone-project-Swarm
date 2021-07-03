@@ -24,8 +24,6 @@ class Missile : public Entity
         void destroy();
 
     private:
-
-        std::mutex _mutex;
         int _speed;
         bool _destroyed;
         std::shared_ptr<Enemy> _target;

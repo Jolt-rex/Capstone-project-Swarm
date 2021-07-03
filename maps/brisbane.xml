@@ -1,9 +1,23 @@
 # goal node is id="0"
 # nodes with a spawn element will spawn enemy entities
 
-<spawn node="2"></spawn>
-<spawn node="5"></spawn>
-<spawn node="18"></spawn>
+<spawn node="23"></spawn>
+<spawn node="22"></spawn>
+<spawn node="31"></spawn>
+<spawn node="34"></spawn>
+<spawn node="38"></spawn>
+<spawn node="48"></spawn>
+<spawn node="51"></spawn>
+<spawn node="54"></spawn>
+<spawn node="57"></spawn>
+<spawn node="61"></spawn>
+<spawn node="64"></spawn>
+<spawn node="67"></spawn>
+<spawn node="75"></spawn>
+<spawn node="78"></spawn>
+<spawn node="81"></spawn>
+<spawn node="82"></spawn>
+<spawn node="86"></spawn>
 
 <node id="0" x="985" y="481"></node>
 <node id="1" x="547" y="250"></node>
@@ -25,12 +39,73 @@
 <node id="17" x="933" y="262"></node>
 <node id="18" x="864" y="184"></node>
 <node id="19" x="788" y="246"></node>
-
-<path id="16" first="14" second="16"></path>
-<path id="17" first="16" second="17"></path>
-<path id="18" first="17" second="18"></path>
-<path id="19" first="18" second="19"></path>
-<path id="20" first="9" second="19"></path>
+<node id="20" x="983" y="71"></node>
+<node id="21" x="905" y="54"></node>
+<node id="22" x="942" y="9"></node>
+<node id="23" x="723" y="25"></node>
+<node id="24" x="711" y="48"></node>
+<node id="25" x="710" y="47"></node>
+<node id="26" x="624" y="20"></node>
+<node id="27" x="619" y="112"></node>
+<node id="28" x="579" y="180"></node>
+<node id="29" x="521" y="211"></node>
+<node id="30" x="542" y="111"></node>
+<node id="31" x="559" y="16"></node>
+<node id="32" x="488" y="86"></node>
+<node id="33" x="374" y="48"></node>
+<node id="34" x="339" y="34"></node>
+<node id="35" x="374" y="48"></node>
+<node id="36" x="320" y="52"></node>
+<node id="37" x="266" y="120"></node>
+<node id="38" x="205" y="108"></node>
+<node id="39" x="277" y="168"></node>
+<node id="40" x="313" y="199"></node>
+<node id="41" x="371" y="264"></node>
+<node id="42" x="652" y="161"></node>
+<node id="43" x="765" y="180"></node>
+<node id="44" x="507" y="278"></node>
+<node id="45" x="370" y="406"></node>
+<node id="46" x="287" y="494"></node>
+<node id="47" x="223" y="580"></node>
+<node id="48" x="194" y="641"></node>
+<node id="49" x="286" y="297"></node>
+<node id="50" x="183" y="384"></node>
+<node id="51" x="34" y="511"></node>
+<node id="52" x="502" y="437"></node>
+<node id="53" x="434" y="506"></node>
+<node id="54" x="335" y="681"></node>
+<node id="55" x="580" y="477"></node>
+<node id="56" x="565" y="572"></node>
+<node id="57" x="547" y="684"></node>
+<node id="58" x="797" y="527"></node>
+<node id="59" x="855" y="622"></node>
+<node id="60" x="826" y="619"></node>
+<node id="61" x="815" y="665"></node>
+<node id="62" x="998" y="617"></node>
+<node id="63" x="1013" y="651"></node>
+<node id="64" x="1149" y="677"></node>
+<node id="65" x="1047" y="608"></node>
+<node id="66" x="1119" y="613"></node>
+<node id="67" x="1458" y="668"></node>
+<node id="68" x="1113" y="454"></node>
+<node id="69" x="1114" y="316"></node>
+<node id="70" x="1143" y="425"></node>
+<node id="71" x="1247" y="518"></node>
+<node id="72" x="1368" y="538"></node>
+<node id="73" x="1442" y="457"></node>
+<node id="74" x="1553" y="415"></node>
+<node id="75" x="1672" y="353"></node>
+<node id="76" x="1123" y="187"></node>
+<node id="77" x="1120" y="76"></node>
+<node id="78" x="1073" y="19"></node>
+<node id="79" x="1021" y="75"></node>
+<node id="80" x="1186" y="113"></node>
+<node id="81" x="1275" y="13"></node>
+<node id="82" x="1248" y="308"></node>
+<node id="83" x="1292" y="195"></node>
+<node id="84" x="1381" y="275"></node>
+<node id="85" x="1442" y="206"></node>
+<node id="86" x="1545" y="273"></node>
 
 # paths link two nodes together by their id
 <path id="1" first="1" second="2"></path>
@@ -48,3 +123,80 @@
 <path id="13" first="13" second="15"></path>
 <path id="14" first="14" second="15"></path>
 <path id="15" first="15" second="0"></path>
+<path id="16" first="14" second="16"></path>
+<path id="17" first="16" second="17"></path>
+<path id="18" first="17" second="18"></path>
+<path id="19" first="18" second="19"></path>
+<path id="20" first="9" second="19"></path>
+<path id="21" first="18" second="20"></path>
+<path id="22" first="20" second="21"></path>
+<path id="23" first="21" second="22"></path>
+<path id="24" first="21" second="23"></path>
+<path id="25" first="23" second="24"></path>
+<path id="26" first="24" second="25"></path>
+<path id="27" first="25" second="26"></path>
+<path id="28" first="26" second="27"></path>
+<path id="29" first="27" second="28"></path>
+<path id="30" first="28" second="29"></path>
+<path id="31" first="3" second="29"></path>
+<path id="32" first="29" second="30"></path>
+<path id="31" first="3" second="29"></path>
+<path id="32" first="30" second="32"></path>
+<path id="33" first="31" second="30"></path>
+<path id="34" first="32" second="33"></path>
+<path id="35" first="34" second="35"></path>
+<path id="36" first="34" second="36"></path>
+<path id="37" first="36" second="37"></path>
+<path id="38" first="37" second="38"></path>
+<path id="39" first="37" second="39"></path>
+<path id="40" first="39" second="40"></path>
+<path id="41" first="40" second="41"></path>
+<path id="42" first="41" second="29"></path>
+<path id="43" first="28" second="42"></path>
+<path id="44" first="42" second="43"></path>
+<path id="45" first="18" second="43"></path>
+<path id="46" first="1" second="44"></path>
+<path id="47" first="44" second="45"></path>
+<path id="48" first="45" second="46"></path>
+<path id="49" first="46" second="47"></path>
+<path id="50" first="47" second="48"></path>
+<path id="51" first="41" second="49"></path>
+<path id="52" first="49" second="50"></path>
+<path id="53" first="50" second="51"></path>
+<path id="54" first="2" second="52"></path>
+<path id="55" first="52" second="53"></path>
+<path id="56" first="53" second="54"></path>
+<path id="57" first="2" second="55"></path>
+<path id="58" first="55" second="56"></path>
+<path id="59" first="56" second="57"></path>
+<path id="60" first="8" second="58"></path>
+<path id="61" first="58" second="59"></path>
+<path id="62" first="59" second="60"></path>
+<path id="63" first="60" second="61"></path>
+<path id="64" first="13" second="62"></path>
+<path id="65" first="62" second="63"></path>
+<path id="66" first="63" second="64"></path>
+<path id="67" first="62" second="65"></path>
+<path id="68" first="65" second="66"></path>
+<path id="69" first="66" second="67"></path>
+<path id="70" first="65" second="68"></path>
+<path id="71" first="66" second="68"></path>
+<path id="72" first="68" second="69"></path>
+<path id="73" first="68" second="70"></path>
+<path id="74" first="70" second="71"></path>
+<path id="75" first="71" second="72"></path>
+<path id="76" first="72" second="73"></path>
+<path id="77" first="73" second="74"></path>
+<path id="78" first="74" second="75"></path>
+<path id="79" first="69" second="76"></path>
+<path id="80" first="76" second="77"></path>
+<path id="81" first="77" second="78"></path>
+<path id="82" first="78" second="79"></path>
+<path id="83" first="79" second="20"></path>
+<path id="84" first="77" second="80"></path>
+<path id="85" first="80" second="81"></path>
+<path id="86" first="80" second="82"></path>
+<path id="87" first="80" second="83"></path>
+<path id="88" first="83" second="84"></path>
+<path id="89" first="84" second="85"></path>
+<path id="90" first="85" second="86"></path>

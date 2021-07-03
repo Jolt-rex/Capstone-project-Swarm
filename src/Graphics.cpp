@@ -38,7 +38,7 @@ void Graphics::runGUI()
     // rendering loop
     while(true) 
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
         this->renderFrame();
     }
@@ -103,61 +103,64 @@ void Graphics::renderFrame()
     _imageStack[1] = _imageStack[0].clone();
     _imageStack[2] = _imageStack[0].clone();
 
-    std::unique_lock<std::mutex> u_lock(_mutex);
-
     // create node entities to be overlaid from _model data
     for(const auto &node : _model->getNodes()) {
-        int id = node->getId();
-        int x = node->getX();
-        int y = node->getY();
-
-        //std::cout << "Entity id= " << id << " x= " << x << " y= " << y << std::endl;
-
-        // if it is the goal node, render a pink circle
-        if(node->isGoal()) {
-            cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(255, 0, 255), -1);
-        }
-        // render a red circle for a spawn point
-        else if(node->isSpawnPoint()) {
-            cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 0, 255), -1);
-        } else {
-        // render a green circle for an node
-            cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 255, 0), -1);
-        }
-    }
-
-    //for each node in the model, iterate over it's connected nodes and draw a line between the two
-    for(const auto &node : _model->getNodes()) {
-        for(const auto &connectedNode : node->getConnected())
+        if(node->isGoal() || node->isSpawnPoint())
         {
-            cv::line(_imageStack[1], cv::Point2d(node->getX(), node->getY()), cv::Point2d(connectedNode->getX(), connectedNode->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
+            int id = node->getId();
+            int x = node->getX();
+            int y = node->getY();
+
+            // if it is the goal node, render a pink circle
+            if(node->isGoal()) {
+                cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(255, 0, 255), -1);
+            }
+            // render a red circle for a spawn point
+            else if(node->isSpawnPoint()) {
+                cv::circle(_imageStack[1], cv::Point2d(x, y), 5, cv::Scalar(0, 0, 255), -1);
+            }
         }
     }
+
+    // DRAW PATHS
+    //for each node in the model, iterate over it's connected nodes and draw a line between the two
+    // for(const auto &node : _model->getNodes()) {
+    //     for(const auto &connectedNode : node->getConnected())
+    //     {
+    //         cv::line(_imageStack[1], cv::Point2d(node->getX(), node->getY()), cv::Point2d(connectedNode->getX(), connectedNode->getY()), cv::Scalar(0, 255, 0), 1, cv::LINE_4);
+    //     }
+    // }
 
     // draw towers
     for(const auto &tower : _model->_towers)
     {
-        int x = tower->getX();
-        int y = tower->getY();
-        // tower object
-        cv::rectangle(_imageStack[1], cv::Point2d(x - 6, y - 2), cv::Point2d(x + 6, y + 2), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
-        // range circle
-        cv::circle(_imageStack[1], cv::Point2d(x, y), tower->getRange(), cv::Scalar(0, 0, 0), 1);
+        if(tower)
+        {
+            int x = tower->getX();
+            int y = tower->getY();
+            // tower object
+            cv::rectangle(_imageStack[1], cv::Point2d(x - 6, y - 2), cv::Point2d(x + 6, y + 2), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
+            // range circle
+            cv::circle(_imageStack[1], cv::Point2d(x, y), tower->getRange(), cv::Scalar(0, 0, 0), 1);
+        }
     }
 
     // draw enemies
     for(const auto &enemy : _model->_enemies)
     {
-        //for(const auto &node : enemy->getRoute()) {
+        if(enemy)
+        {
             cv::circle(_imageStack[1], cv::Point2d(enemy->getX(), enemy->getY()), 4, cv::Scalar(0, 0, 255), -1);
-        //}
-        //std::cout << "Enemy location x=" << enemy->getX() << " y=" << enemy->getY() << std::endl;
+        }
     }
 
     // draw missiles
     for(const auto &missile : _model->_missiles)
     {
-        cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 2, cv::Scalar(255, 0 ,255), -1);
+        if(missile)
+        {
+            cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 2, cv::Scalar(255, 0 ,255), -1);
+        }
     }
 
     // draw controll box

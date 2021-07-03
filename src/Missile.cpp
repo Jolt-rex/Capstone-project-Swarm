@@ -52,7 +52,9 @@ void Missile::launch()
             double y = _y;
             double t_x = _target->getX();
             double t_y = _target->getY();
-            //u_lock.unlock();
+            
+            // unlock while we perform heavy math calculations
+            u_lock.unlock();
 
             double distanceToTarget = std::sqrt(std::pow((x - t_x), 2) + (std::pow((y - t_y), 2)));
 
@@ -63,7 +65,7 @@ void Missile::launch()
             x = x + distanceTravelledRatio * (t_x - x);
             y = y + distanceTravelledRatio * (t_y - y);
 
-            //u_lock.lock();
+            u_lock.lock();
             _x = x;
             _y = y;            
             

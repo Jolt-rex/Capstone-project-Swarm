@@ -83,7 +83,7 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
  void Model::simulate()
  {
     _gameState = GameState::kRunning;
-    _funds = 200;
+    _funds = 2000;
     _thread = std::thread(&Model::cleanup, this);
     
  }
