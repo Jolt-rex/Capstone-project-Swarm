@@ -13,7 +13,7 @@ RoutePlanner::RoutePlanner(std::shared_ptr<Model> model, std::shared_ptr<Node> o
     _model = model;
     this->resetModel();
     
-    std::cout << "Route Planner created.. origin node=" << _origin->getId() << " goal node=" << _goal->getId() << std::endl;
+    //std::cout << "Route Planner created.. origin node=" << _origin->getId() << " goal node=" << _goal->getId() << std::endl;
 }
 
 RoutePlanner::~RoutePlanner()
@@ -43,14 +43,20 @@ double RoutePlanner::calculateHValue(std::shared_ptr<Node> node)
 // add neighbouring nodes to the open list
 void RoutePlanner::addNeighbours(std::shared_ptr<Node> currentNode)
 {
-    std::vector<std::shared_ptr<Node>> neighbours = currentNode->getConnected();
-    for(auto &node : neighbours) {
-        if(!node->HasBeenVisited()) {
-            node->SetParent(currentNode);
-            node->SetHValue(calculateHValue(node)); 
-            node->SetGValue(node->Distance(currentNode) + currentNode->GetGValue());
-            node->SetVisited(true);
-            _openList.emplace_back(node);
+    // we are using weak_ptr's to avoid nodes pointing to each other with shared_ptr
+    // and creating circular dependancies. The nodes persist in memory as the Model 
+    // object has a vector of shared_ptr's to all nodes
+    std::vector<std::weak_ptr<Node>> neighbours = currentNode->getConnected();
+    for(auto &neighbour : neighbours) {
+        if(auto node = neighbour.lock())
+        {
+            if(!node->HasBeenVisited()) {
+                node->SetParent(currentNode);
+                node->SetHValue(calculateHValue(node)); 
+                node->SetGValue(node->Distance(currentNode) + currentNode->GetGValue());
+                node->SetVisited(true);
+                _openList.emplace_back(node);
+            }
         }
     }
 }

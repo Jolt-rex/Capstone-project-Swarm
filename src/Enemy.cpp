@@ -3,6 +3,7 @@
 #include <memory>
 #include <thread>
 #include <math.h>
+#include <algorithm>
 #include "Enemy.h"
 #include "Model.h"
 
@@ -21,7 +22,12 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
 
 Enemy::~Enemy()
 {
-    std::cout << "Enemy #" << _id << " destroyed" << std::endl;
+    for(auto &thread : _threads)
+    {
+        thread.join();
+    }
+    
+    //std::cout << "Enemy #" << _id << " destroyed" << std::endl;
 }
 
 bool Enemy::isTargeted()
@@ -46,6 +52,12 @@ void Enemy::setToDead()
 {   
     std::unique_lock<std::mutex> u_lock(_mutex);
     _isDead = true;
+}
+
+bool Enemy::atGoal()
+{
+    std::unique_lock<std::mutex> u_lock(_mutex);
+    return _atGoal;
 }
 
 void Enemy::simulate()
@@ -123,7 +135,4 @@ void Enemy::run()
         // reset last update to current time
         lastUpdate = std::chrono::system_clock::now();
     }
-    //if(_atGoal) std::cout << "Enemy #" << _id << " reached goal..." << std::endl;
-    // end game and set enemy to dead
-    //if(_isDead) std::cout << "Enemy #" << _id << " was killed..." << std::endl;
 }

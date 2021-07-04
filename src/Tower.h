@@ -15,11 +15,12 @@ class Tower : public Entity
 {
     public:
         Tower(int id, double x, double y, int range, std::weak_ptr<Model> model);
+        ~Tower();
 
         void simulate();
         void run();
 
-        void deactivateTower() { _active = false; }
+        void deactivateTower();
 
     private:
         int _missileSpeed;    

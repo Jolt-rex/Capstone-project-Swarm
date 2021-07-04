@@ -13,6 +13,7 @@
 #include "Enemy.h"
 #include "Tower.h"
 #include "Missile.h"
+#include "SpawnController.h"
 
 class Enemy;
 class Tower;
@@ -26,8 +27,9 @@ enum GameState {
 class Model
 {
     public:
-        // constructor
+        // constructor / destructor
         Model(GameRules &gameRules);
+        ~Model();
 
         // getter / setters
         std::vector<std::shared_ptr<Node>> getNodes() { return _nodes; }
@@ -35,8 +37,8 @@ class Model
         GameState getGameState() { return _gameState; }
         void setGameState(GameState gs) { _gameState = gs; }
         int getFunds() { return _funds; }
+        int getKills() { return _kills; }
         void setFunds(int funds) { _funds = funds; }
-
 
         void moveEnemyToModel(std::shared_ptr<Enemy> &enemy);
         void moveMissileToModel(std::unique_ptr<Missile> &missile);
@@ -45,6 +47,7 @@ class Model
 
         void simulate();
         void cleanup();
+        void gameOver();
 
         std::vector<std::shared_ptr<Enemy>> _enemies;
         std::vector<std::unique_ptr<Tower>> _towers;
@@ -58,11 +61,11 @@ class Model
         std::shared_ptr<Node> _goal;
 
         GameState _gameState;
+        int _funds;
+        int _kills;
 
         std::mutex _mutex;
         std::thread _thread;
-
-        int _funds;
 };
 
 #endif

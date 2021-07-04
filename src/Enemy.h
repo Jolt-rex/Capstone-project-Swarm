@@ -18,15 +18,17 @@ class Enemy : public Entity
         ~Enemy();
 
         // getter / setter
+        bool isTargeted();
+        void setTargeted(bool targeted);
+        bool isDead();
+        void setToDead();
+        bool atGoal();
+        
         std::vector<std::shared_ptr<Node>> getRoute() { return _path; }
 
         void simulate();
         void run();
 
-        bool isTargeted();
-        void setTargeted(bool targeted);
-        bool isDead();
-        void setToDead();
         
     private:
         int _speed;

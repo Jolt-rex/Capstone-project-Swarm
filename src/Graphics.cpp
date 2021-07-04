@@ -36,7 +36,7 @@ void Graphics::runGUI()
     _mouseState = kDeselected;
     
     // rendering loop
-    while(true) 
+    while(_model->getGameState() == GameState::kRunning) 
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
@@ -57,7 +57,7 @@ void Graphics::graphicsMouseHandler(int event, int x, int y)
 {
     if(event == cv::EVENT_LBUTTONDOWN) 
     {
-        std::cout << "Mouse location: X:" << x << " Y:" << y << std::endl;
+        // std::cout << "Mouse location: X:" << x << " Y:" << y << std::endl;
 
         // if we click inside the T button
         if((x > 0 && x <= 50) && (y >= 120 && y <= 170))
@@ -176,10 +176,9 @@ void Graphics::renderFrame()
     // draw text
     cv::putText(_imageStack[1], "Funds: " + std::to_string(_model->getFunds()), cv::Point2d(5, 20), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
     cv::putText(_imageStack[1], "Enemies: " + std::to_string(_model->_enemies.size()), cv::Point2d(5, 45), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
-    cv::putText(_imageStack[1], "Towers: " + std::to_string(_model->_towers.size()), cv::Point2d(5, 70), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
-    cv::putText(_imageStack[1], "Missiles: " + std::to_string(_model->_missiles.size()), cv::Point2d(5, 95), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
-
-
+    cv::putText(_imageStack[1], "Kills: " + std::to_string(_model->getKills()), cv::Point2d(5, 70), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Towers: " + std::to_string(_model->_towers.size()), cv::Point2d(5, 95), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
+    cv::putText(_imageStack[1], "Missiles: " + std::to_string(_model->_missiles.size()), cv::Point2d(5, 120), cv::FONT_HERSHEY_PLAIN, 1.5, cv::Scalar(0, 255, 0), 2);
 
     // display the background and overlay image
     float opacity = 0.85;

@@ -14,6 +14,7 @@ class Node : public Entity
 {
     public:
         Node(int id, double x, double y, bool isGoal, bool isSpawnPoint);
+        ~Node();
 
         bool isGoal() const { return _goal; }
         bool isSpawnPoint() const { return _spawnPoint; }
@@ -30,8 +31,8 @@ class Node : public Entity
         void SetHValue(double h_value) { _hValue = h_value; }
         double GetHValue() { return _hValue; }
         
-        void AddConnected(std::shared_ptr<Node> node);
-        std::vector<std::shared_ptr<Node>> getConnected() const;
+        void AddConnected(std::weak_ptr<Node> node);
+        std::vector<std::weak_ptr<Node>> getConnected() const;
 
         double Distance(std::shared_ptr<Node> node);
 
@@ -42,9 +43,11 @@ class Node : public Entity
         bool _visited;
         double _hValue;
         double _gValue;
+        // TODO weak_ptr
         std::shared_ptr<Node> _parent;
 
-        std::vector<std::shared_ptr<Node>> _connectedNodes;
+        // TODO weak_ptr
+        std::vector<std::weak_ptr<Node>> _connectedNodes;
 };
 
 

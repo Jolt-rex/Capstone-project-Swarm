@@ -12,12 +12,17 @@ Node::Node(int id, double x, double y, bool isGoal, bool isSpawnPoint) : Entity(
     _spawnPoint = isSpawnPoint;
 }
 
-void Node::AddConnected(std::shared_ptr<Node> node)
+Node::~Node()
+{
+    //std::cout << "Node #" << _id << " destroyed" << std::endl;
+}
+
+void Node::AddConnected(std::weak_ptr<Node> node)
 {
     _connectedNodes.push_back(node);
 }
 
-std::vector<std::shared_ptr<Node>> Node::getConnected() const
+std::vector<std::weak_ptr<Node>> Node::getConnected() const
 {
     return _connectedNodes;
 }

@@ -71,6 +71,19 @@ Model::Model(GameRules &gameRules)
     }
 }
 
+Model::~Model()
+{
+    _thread.join();
+    _goal = nullptr;
+    _missiles.clear();
+    _enemies.clear();
+    _towers.clear();
+    _nodes.clear();
+    //std::cout << "Model desconstructor. Towers: " << _towers.size() << " Enemies: " 
+    //    << _enemies.size() << " Missiles: " << _missiles.size() << " Nodes: " << _nodes.size() << std::endl;
+
+}
+
 void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
 {
     std::unique_lock<std::mutex> u_lock(_mutex);
@@ -107,11 +120,12 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
  {
     _gameState = GameState::kRunning;
     _funds = _gameRules.startingFunds;
+    _kills = 0;
     _thread = std::thread(&Model::cleanup, this);
-    
  }
 
 // iterate over enemies and missiles and remove if dead / destroyed
+// also checks in an emeny is at the goal, and will change the game state
  void Model::cleanup()
  {
      std::unique_lock<std::mutex> u_lock(_mutex);
@@ -121,18 +135,45 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         u_lock.lock();
+
+        // erase the missile from the vector if it isDestroyed
         if(_missiles.size() > 0){
             _missiles.erase(std::remove_if(_missiles.begin(), _missiles.end(), [](const std::unique_ptr<Missile> &missile) { 
                 //if(missile->isDestroyed()) std::cout << "Destroying missile from Model vector" << std::endl;
                 return missile->isDestroyed(); 
             }), _missiles.end());
         }
+
+        // erase the enemy from the vector if it has been killed
+        // claim funds for the kill, and also check if it is at the goal
         if(_enemies.size() > 0) {
             _enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(), [&](const std::shared_ptr<Enemy> &enemy) { 
                 //if(enemy->isDead()) std::cout << "Destroying enemy from Model vector" << std::endl;
-                if(enemy->isDead()) _funds += _gameRules.killReward;
+                if(enemy->atGoal()) this->_gameState = GameState::kLost;
+                if(enemy->isDead()) {
+                    _funds += _gameRules.killReward;
+                    _kills++;
+                }
                 return enemy->isDead(); 
             }), _enemies.end());
         }
+        // check if all enemies are killed
+        if(_kills == _gameRules.maxEnemiesToSpawn - 1) _gameState = GameState::kWon;
      }
+     // GAME OVER
+     this->gameOver();
+ }
+
+ void Model::gameOver()
+ {
+     // destroy all missiles
+     std::for_each(_missiles.begin(), _missiles.end(), [](std::unique_ptr<Missile> &missile) { missile->destroy(); });
+
+     // kill all enemies
+     std::for_each(_enemies.begin(), _enemies.end(), [](std::shared_ptr<Enemy> &enemy) { enemy->setToDead(); });
+
+     // stop all towers
+     std::for_each(_towers.begin(), _towers.end(), [](std::unique_ptr<Tower> &tower) { tower->deactivateTower(); });
+
+     std::cout << "Game Over. You " << (_gameState == kWon ? "WON!" : "LOST") << std::endl;
  }

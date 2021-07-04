@@ -3,7 +3,7 @@
 #include <iostream>
 #include <thread>
 #include <math.h>
-
+#include <algorithm>
 #include "Missile.h"
 
 Missile::Missile(int id, int x, int y, int speed, std::shared_ptr<Enemy> target) : Entity(id, x, y)
@@ -17,7 +17,12 @@ Missile::Missile(int id, int x, int y, int speed, std::shared_ptr<Enemy> target)
 
 Missile::~Missile()
 {
-    // std::cout << "Destroying missile #" << _id << std::endl;
+    for(auto &thread : _threads)
+    {
+        thread.join();
+    }
+    
+    //std::cout << "Destroying missile #" << _id << std::endl;
 }
 
 void Missile::simulate()
@@ -86,8 +91,7 @@ void Missile::launch()
 
 void Missile::destroy()
 {
-    // std::unique_lock<std::mutex> u_lock(_mutex);
-    // u_lock.lock();
+    std::unique_lock<std::mutex> u_lock(_mutex);
     _destroyed = true;
 }
 

@@ -10,7 +10,7 @@
 
 Tower::Tower(int id, double x, double y, int range, std::weak_ptr<Model> model) : Entity(id, x, y)
 {
-    std::cout << "Creating tower #" << id << std::endl;
+    //std::cout << "Creating tower #" << id << std::endl;
     _model = model;
     _active = false;
 
@@ -27,6 +27,16 @@ Tower::Tower(int id, double x, double y, int range, std::weak_ptr<Model> model) 
     }
 
     this->simulate();
+}
+
+Tower::~Tower()
+{
+    for(auto &thread : _threads)
+    {
+        thread.join();
+    }
+    
+    //std::cout << "Tower #" << _id << " destroyed" << std::endl;
 }
 
 void Tower::simulate()
@@ -73,3 +83,8 @@ void Tower::run()
     }
 }
 
+void Tower::deactivateTower()
+{
+    std::unique_lock<std::mutex> u_lock(_mutex);
+    _active = false;
+}

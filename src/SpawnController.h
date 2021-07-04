@@ -11,6 +11,11 @@
 #include "SpawnPoint.h"
 #include "GameRules.h"
 
+class SpawnPoint;
+
+// One SpawnController object holds pointers to multiple SpawnPoints
+// The SpawnController runs a loop where it randomly selects a spawn point
+// and calls a function of the SpawnPoint to spawn an enemy at a defined interval
 class SpawnController
 {
     public:
@@ -19,8 +24,6 @@ class SpawnController
         
         void spawnEnemies();
         void simulate();
-
-        void disable();
 
     private:
         // vector of spawn points to call method and create enemy
@@ -40,6 +43,9 @@ class SpawnController
         // thread holder
         std::thread _thread;
         std::mutex _mutex;
+
+        // pointer to model to check gameState ie: kRunning..
+        std::shared_ptr<Model> _model;
 };
 
 #endif

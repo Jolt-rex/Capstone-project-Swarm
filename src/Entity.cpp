@@ -14,7 +14,7 @@ Entity::~Entity()
 {
     // std::cout << "Destroying entity : " << _id << std::endl;
     // ensure all threads held by this object are joined
-    std::for_each(_threads.begin(), _threads.end(), [](std::thread &t) { t.join(); });
+    //std::for_each(_threads.begin(), _threads.end(), [](std::thread &t) { t.join(); });
 }
 
 void Entity::setLocation(double x, double y)
