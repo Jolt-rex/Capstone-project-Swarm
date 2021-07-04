@@ -16,6 +16,10 @@ struct GameRules
     int missileReloadTime;  // milliseconds
     int towerCost;
     int towerRange;         // in radius pixels
+
+    int killReward;
+
+    bool speedup;
 };
 
 

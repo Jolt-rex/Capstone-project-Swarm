@@ -22,7 +22,9 @@ SpawnController::SpawnController(std::shared_ptr<Model> model)
 
     _spawnInterval = model->_gameRules.enemySpawnInterval;
     _enemiesToSpawn = model->_gameRules.maxEnemiesToSpawn;
-    _enemySpeed = model->_gameRules.enemySpeed;    
+    _enemySpeed = model->_gameRules.enemySpeed;   
+    _missileSpeed = model->_gameRules.missileSpeed; 
+    _speedup = model->_gameRules.speedup;
 }
 
 SpawnController::~SpawnController()
@@ -57,7 +59,6 @@ void SpawnController::spawnEnemies()
     // spawn controller loop to spawn enemies at random times
     //auto spawnTime = std::chrono::system_clock::now();
 
-    std::cout << "Spawning enemy #" << _enemyCount << " of " << _enemiesToSpawn << std::endl;
     while(_running && _enemyCount < _enemiesToSpawn) 
     {
         // sleep during spawnInterval - then spawn our enemy
@@ -66,9 +67,25 @@ void SpawnController::spawnEnemies()
         // random int of which spawn point to select
         int randomSpawnPoint = dist(rng);
 
-        std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
+        //std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
 
         _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, _enemySpeed);
+
+        // every third enemy, increase enemy speed and decrease spawn interval
+        if(_speedup && (_enemyCount % 3 == 0))
+        {
+            std::cout << "Enemy speed: " << _enemySpeed << " Spawn Interval: " << _spawnInterval << std::endl;
+            if(_spawnInterval > 100) 
+            {
+                _spawnInterval -= 10;
+            }
+
+            // dont allow the enemy to be faster than 70% of the missile speed
+            if(_enemySpeed < _missileSpeed * 0.7)
+            {
+                _enemySpeed++;
+            }
+        }
     } 
 }
 

@@ -19,14 +19,16 @@ int main(int argc, char** argv) {
 
     GameRules gameRules;
     gameRules.map = "brisbane";
-    gameRules.startingFunds = 400;
-    gameRules.enemySpeed = 20;
-    gameRules.maxEnemiesToSpawn = 200;
-    gameRules.enemySpawnInterval = 1000;
+    gameRules.startingFunds = 500;
+    gameRules.enemySpeed = 10;
+    gameRules.maxEnemiesToSpawn = 500;      
+    gameRules.enemySpawnInterval = 1000;    // milliseconds
     gameRules.missileSpeed = 150;
-    gameRules.missileReloadTime = 4000; // milliseconds 
+    gameRules.missileReloadTime = 4000;     // milliseconds 
     gameRules.towerCost = 100;
     gameRules.towerRange = 200;
+    gameRules.killReward = 10;
+    gameRules.speedup = true;               // increase enemy speed and lower spawn interval over time
     
     // load entities from xml file into entities vector of shared ptrs
     std::shared_ptr<Model> model = std::make_shared<Model>(gameRules);

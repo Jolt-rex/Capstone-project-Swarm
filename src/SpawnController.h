@@ -34,6 +34,8 @@ class SpawnController
         int _spawnInterval;
         int _enemiesToSpawn;
         int _enemySpeed;
+        int _missileSpeed;
+        bool _speedup;
 
         // thread holder
         std::thread _thread;

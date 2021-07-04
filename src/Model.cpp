@@ -123,14 +123,14 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
         u_lock.lock();
         if(_missiles.size() > 0){
             _missiles.erase(std::remove_if(_missiles.begin(), _missiles.end(), [](const std::unique_ptr<Missile> &missile) { 
-                if(missile->isDestroyed()) std::cout << "Destroying missile from Model vector" << std::endl;
+                //if(missile->isDestroyed()) std::cout << "Destroying missile from Model vector" << std::endl;
                 return missile->isDestroyed(); 
             }), _missiles.end());
         }
         if(_enemies.size() > 0) {
             _enemies.erase(std::remove_if(_enemies.begin(), _enemies.end(), [&](const std::shared_ptr<Enemy> &enemy) { 
-                if(enemy->isDead()) std::cout << "Destroying enemy from Model vector" << std::endl;
-                if(enemy->isDead()) _funds += 20;
+                //if(enemy->isDead()) std::cout << "Destroying enemy from Model vector" << std::endl;
+                if(enemy->isDead()) _funds += _gameRules.killReward;
                 return enemy->isDead(); 
             }), _enemies.end());
         }
