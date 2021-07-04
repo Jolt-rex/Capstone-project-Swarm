@@ -5,8 +5,9 @@
 
 #include "SpawnController.h"
 
-#define SPAWN_INTERVAL 250
-
+// One SpawnController object holds pointers to multiple SpawnPoints
+// The SpawnController runs a loop where it randomly selects a spawn point
+// and calls a function of the SpawnPoint to spawn an enemy when required
 SpawnController::SpawnController(std::shared_ptr<Model> model)
 {
     // generate spawn points from the model
@@ -18,6 +19,10 @@ SpawnController::SpawnController(std::shared_ptr<Model> model)
     }
     _spawnPointCount = _spawnPoints.size();
     _enemyCount = 0;
+
+    _spawnInterval = model->_gameRules.enemySpawnInterval;
+    _enemiesToSpawn = model->_gameRules.maxEnemiesToSpawn;
+    _enemySpeed = model->_gameRules.enemySpeed;    
 }
 
 SpawnController::~SpawnController()
@@ -32,6 +37,15 @@ void SpawnController::simulate()
     _thread = std::thread(&SpawnController::spawnEnemies, this);
 }
 
+void SpawnController::disable()
+{
+    // lock, as we call this function from the Model object
+    // which may occur at the same time as this objects thread
+    // is accessing the member _running
+    std::unique_lock<std::mutex> u_lock(_mutex);
+    _running = false;
+}
+
 void SpawnController::spawnEnemies()
 {
     _running = true;
@@ -41,19 +55,20 @@ void SpawnController::spawnEnemies()
     std::uniform_int_distribution<> dist(0, _spawnPointCount - 1);
     
     // spawn controller loop to spawn enemies at random times
-    auto spawnTime = std::chrono::system_clock::now();
-    while(_running && _enemyCount < 1000) 
+    //auto spawnTime = std::chrono::system_clock::now();
+
+    std::cout << "Spawning enemy #" << _enemyCount << " of " << _enemiesToSpawn << std::endl;
+    while(_running && _enemyCount < _enemiesToSpawn) 
     {
-        // update every 1 second
-        std::this_thread::sleep_for(std::chrono::milliseconds(SPAWN_INTERVAL));
+        // sleep during spawnInterval - then spawn our enemy
+        std::this_thread::sleep_for(std::chrono::milliseconds(_spawnInterval));
 
         // random int of which spawn point to select
         int randomSpawnPoint = dist(rng);
 
-        // std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
+        std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
 
-        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, 100);
+        _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, _enemySpeed);
     } 
-
 }
 

@@ -6,15 +6,26 @@
 
 #include "Entity.h"
 #include "Tower.h"
-
-#define TOWER_RELOAD_TIME 1000
+#include "GameRules.h"
 
 Tower::Tower(int id, double x, double y, int range, std::weak_ptr<Model> model) : Entity(id, x, y)
 {
     std::cout << "Creating tower #" << id << std::endl;
     _model = model;
-    _range = range;
     _active = false;
+
+    if(auto m = model.lock())
+    {
+        _missileSpeed = m->_gameRules.missileSpeed;
+        _missileReloadTime = m->_gameRules.missileReloadTime;
+    }
+    else
+    {
+        std::cout << "Unable to load game rules for tower object. Using defaults." << std::endl;
+        _missileSpeed = 150;
+        _missileReloadTime = 4000;
+    }
+
     this->simulate();
 }
 
@@ -31,45 +42,32 @@ void Tower::run()
     auto lastMissile = std::chrono::system_clock::now(); 
 
     _active = true;
+    std::unique_lock<std::mutex> u_lock(_mutex);
     while(_active)
     {
-        std::unique_lock<std::mutex> u_lock(Tower::_mutex);
         u_lock.unlock();
-        
-        double enemy_x;
-        double enemy_y;
-        
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
         auto timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastMissile).count();
-
-        //std::cout << "Time diff: " << timeDifference << std::endl;
         
         u_lock.lock();
-        if(timeDifference >= TOWER_RELOAD_TIME)
+        
+        if(timeDifference >= _missileReloadTime)
         {          
             // convert weak_ptr to shared_ptr and check it for null
             if(auto model = _model.lock())
             {
-                // iterate over the enemies and check if there are any that are untargeted
-                for(auto &enemy : model->_enemies)
+                // get earliest created enemy that is in range of this tower
+                std::shared_ptr<Enemy> enemy = model->getTargetableEnemy(*this);    
+                if(enemy)
                 {
-                    if(enemy && !enemy->isTargeted()) // && (enemy_x = enemy->getX()) && (enemy_y = enemy->getY())))
-                    {
-                        enemy_x = enemy->getX();
-                        enemy_y = enemy->getY();
-                        // check target is in range
-                        double distance = std::sqrt(std::pow((_x - enemy_x), 2) + (std::pow((_y - enemy_y), 2)));
-                        if(_range >= distance)
-                        {
-                            enemy->setTargeted(true);
-                            lastMissile = std::chrono::system_clock::now();
-                            std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, 150, enemy);
-                            model->moveMissileToModel(missile);
-                            break;
-                        }   
-                    }
+                    enemy->setTargeted(true);
+                    lastMissile = std::chrono::system_clock::now();
+                    std::unique_ptr<Missile> missile = std::make_unique<Missile>(99, _x, _y, _missileSpeed, enemy);
+                    model->moveMissileToModel(missile);
+                    continue;      
                 }
+                
             }
         }
     }

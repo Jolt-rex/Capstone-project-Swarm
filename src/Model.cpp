@@ -2,18 +2,23 @@
 #include <iostream>
 #include <algorithm>
 #include <memory>
+#include <math.h>
 #include "Model.h"
 #include "Entity.h"
 #include "Node.h"
 #include "Enemy.h"
 #include "Tower.h"
 #include "Missile.h"
+#include "GameRules.h"
+
+// 3rd party lib
 #include "libs/pugixml.hpp"
 
-
-Model::Model(std::string map)
+Model::Model(GameRules &gameRules)
 {
-    std::string filename("../maps/" + map + ".xml");
+    _gameRules = gameRules;
+
+    std::string filename("../maps/" + gameRules.map + ".xml");
     pugi::xml_document input;
     if(!input.load_file(filename.c_str())) {
         std::cerr << "Unable to load input file, please check map name is correct." << std::endl;
@@ -79,11 +84,29 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
     _missiles.emplace_back(std::move(missile));
     _missiles.back()->simulate();
  }
+
+ std::shared_ptr<Enemy> Model::getTargetableEnemy(Tower &tower)
+ {
+     std::unique_lock<std::mutex> u_lock(_mutex);
+     for(const std::shared_ptr<Enemy> &enemy : _enemies)
+     {
+         if(!enemy->isTargeted())
+         {
+            double distance = std::sqrt(std::pow((tower.getX() - enemy->getX()), 2) + (std::pow((tower.getY() - enemy->getY()), 2)));
+            
+            if(_gameRules.towerRange >= distance)
+            {
+                return enemy;
+            }                
+         }
+     }
+     return nullptr;
+ }
  
  void Model::simulate()
  {
     _gameState = GameState::kRunning;
-    _funds = 2000;
+    _funds = _gameRules.startingFunds;
     _thread = std::thread(&Model::cleanup, this);
     
  }

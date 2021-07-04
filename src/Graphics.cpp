@@ -38,7 +38,7 @@ void Graphics::runGUI()
     // rendering loop
     while(true) 
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
         this->renderFrame();
     }
@@ -79,6 +79,7 @@ void Graphics::graphicsMouseHandler(int event, int x, int y)
             }
         }
     }
+    // right mouse button to deselect
     if(event == cv::EVENT_RBUTTONDOWN) 
     {
         _mouseState = kDeselected;
@@ -141,7 +142,7 @@ void Graphics::renderFrame()
             // tower object
             cv::rectangle(_imageStack[1], cv::Point2d(x - 6, y - 2), cv::Point2d(x + 6, y + 2), cv::Scalar(255, 0, 0), cv::FILLED, cv::LINE_4, 0);
             // range circle
-            cv::circle(_imageStack[1], cv::Point2d(x, y), tower->getRange(), cv::Scalar(0, 0, 0), 1);
+            cv::circle(_imageStack[1], cv::Point2d(x, y), _model->_gameRules.towerRange, cv::Scalar(0, 0, 0), 1);
         }
     }
 
@@ -150,6 +151,7 @@ void Graphics::renderFrame()
     {
         if(enemy)
         {
+            // enemy is a red, 4px circle
             cv::circle(_imageStack[1], cv::Point2d(enemy->getX(), enemy->getY()), 4, cv::Scalar(0, 0, 255), -1);
         }
     }
@@ -159,7 +161,8 @@ void Graphics::renderFrame()
     {
         if(missile)
         {
-            cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 2, cv::Scalar(255, 0 ,255), -1);
+            // missile is a orange, 2px circle
+            cv::circle(_imageStack[1], cv::Point2d(missile->getX(), missile->getY()), 2, cv::Scalar(0, 154 ,255), -1);
         }
     }
 
