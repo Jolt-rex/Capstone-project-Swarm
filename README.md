@@ -7,6 +7,8 @@ the goal node (pink). The enemies appear as red circles. The user can place towe
 the enemies to kill them. A launched missile will follow the enemy until it hits. One missile will kill one enemy. Once all enemies are killed
 the simulation ends. If an enemy reaches the goal the simulation ends.
 
+To place a tower, click on the 'T' button to enter Tower Build mode. The left click on the map where you want to place a tower.
+
 ## Dependencies for Running Locally
 * cmake >= 2.8
   * All OSes: [click here for installation instructions](https://cmake.org/install/)
