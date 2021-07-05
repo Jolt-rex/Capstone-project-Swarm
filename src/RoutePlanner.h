@@ -11,6 +11,7 @@
 // forward declaration
 class Node;
 
+// Using A* search algorithm
 class RoutePlanner
 {
     public:
@@ -20,6 +21,7 @@ class RoutePlanner
         void resetModel();
 
         double calculateHValue(std::shared_ptr<Node> node);
+        
         // add neighbouring nodes to the open list
         void addNeighbours(std::shared_ptr<Node> currentNode);
         std::shared_ptr<Node> nextNode();

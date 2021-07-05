@@ -57,12 +57,13 @@ void SpawnController::spawnEnemies()
         //std::cout << "Spawning enemy at #" << randomSpawnPoint << std::endl;
         _spawnPoints[randomSpawnPoint]->SpawnEnemy(++_enemyCount, _enemySpeed);
 
+        // if speedup is activated
         // every third enemy, increase enemy speed and decrease spawn interval
         if(_speedup && (_enemyCount % 3 == 0))
         {
             //std::cout << "Enemy speed: " << _enemySpeed << " Spawn Interval: " << _spawnInterval << std::endl;
             // dont let enemies spawn faster than every 100ms
-            if(_spawnInterval >= 100) 
+            if(_spawnInterval >= 110) 
             {
                 _spawnInterval -= 10;
             }

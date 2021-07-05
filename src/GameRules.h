@@ -3,6 +3,7 @@
 
 #include <string>
 
+// Object to store data relevant to game settings
 struct GameRules
 {
     std::string map;

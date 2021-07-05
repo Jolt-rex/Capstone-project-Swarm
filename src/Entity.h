@@ -9,6 +9,7 @@
 class Entity
 {
     public:
+        // Constructor / destructor
         Entity(int id, double x, double y);
         ~Entity();
 
@@ -18,6 +19,10 @@ class Entity
         const double getY();
 
     protected:
+        // id of the object and x and y co-ordinates on the screen
+        // double has been used even though an int would be suitable
+        // to represent the actual position in pixels, a double lets 
+        // interpolate the position during the simulation loop
         int _id;
         double _x;
         double _y;

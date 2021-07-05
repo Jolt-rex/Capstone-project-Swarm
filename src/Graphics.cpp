@@ -44,6 +44,7 @@ void Graphics::runGUI()
     }
 }
 
+// wrapper around the opencv mouse event handler so we can handle it with this object
 void Graphics::mouseHandler(int event, int x, int y, int, void* userdata)
 {
     if(userdata != nullptr)
@@ -60,6 +61,7 @@ void Graphics::graphicsMouseHandler(int event, int x, int y)
         // std::cout << "Mouse location: X:" << x << " Y:" << y << std::endl;
 
         // if we click inside the T button
+        // select towerBuild mode, or deselect if we are already in towerBuild mode
         if((x > 0 && x <= 50) && (y >= 120 && y <= 170))
         {
             _mouseState = (_mouseState == kTowerBuild ? kDeselected : kTowerBuild);
@@ -124,7 +126,8 @@ void Graphics::renderFrame()
     }
 
     // DRAW PATHS
-    //for each node in the model, iterate over it's connected nodes and draw a line between the two
+    // for each node in the model, iterate over it's connected nodes and draw a line between the two
+    // uncomment if you wish to see the paths used by the enemies
     // for(const auto &node : _model->getNodes()) {
     //     for(const auto &connectedNode : node->getConnected())
     //     {

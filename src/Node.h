@@ -31,10 +31,10 @@ class Node : public Entity
         void SetHValue(double h_value) { _hValue = h_value; }
         double GetHValue() { return _hValue; }
         
-        void AddConnected(std::weak_ptr<Node> node);
+        void addConnected(std::weak_ptr<Node> node);
         std::vector<std::weak_ptr<Node>> getConnected() const;
 
-        double Distance(std::shared_ptr<Node> node);
+        double distance(std::shared_ptr<Node> node);
 
     protected:
         bool _goal;
@@ -43,10 +43,10 @@ class Node : public Entity
         bool _visited;
         double _hValue;
         double _gValue;
-        // TODO weak_ptr
         std::shared_ptr<Node> _parent;
 
-        // TODO weak_ptr
+        // using a weak_ptr so our connected nodes do not form a circular dependancy
+        // they will remain in scope, as the shared_ptr is held by the Model object
         std::vector<std::weak_ptr<Node>> _connectedNodes;
 };
 

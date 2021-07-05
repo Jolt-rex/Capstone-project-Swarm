@@ -31,10 +31,7 @@ Tower::Tower(int id, double x, double y, int range, std::weak_ptr<Model> model) 
 
 Tower::~Tower()
 {
-    for(auto &thread : _threads)
-    {
-        thread.join();
-    }
+    std::for_each(_threads.begin(), _threads.end(), [](std::thread &th) { th.join(); });
     
     //std::cout << "Tower #" << _id << " destroyed" << std::endl;
 }
@@ -56,6 +53,8 @@ void Tower::run()
     while(_active)
     {
         u_lock.unlock();
+
+        // sleep for 10ms as the refresh rate does not need to be high for this object
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
         auto timeDifference = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - lastMissile).count();

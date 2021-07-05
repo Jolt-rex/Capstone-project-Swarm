@@ -28,6 +28,7 @@ class Graphics
         // cv lib event handler
         static void mouseHandler(int event, int x, int y, int, void* userdata);
         void graphicsMouseHandler(int event, int x, int y);
+        
         void loadBackgroundImage();
         void renderFrame();
 

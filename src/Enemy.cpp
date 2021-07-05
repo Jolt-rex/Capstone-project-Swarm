@@ -8,6 +8,7 @@
 #include "Model.h"
 
 // create enemy, using the path vector to create at start position
+// the path vector is initialised by the RoutePlanner object
 Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) : 
     Entity(id, path.front()->getX(), path.front()->getY())
 {
@@ -20,12 +21,11 @@ Enemy::Enemy(int id, int speed, std::vector<std::shared_ptr<Node>> path) :
     _atGoal = false;
 }
 
+// destructor
 Enemy::~Enemy()
 {
-    for(auto &thread : _threads)
-    {
-        thread.join();
-    }
+    // join the threads
+    std::for_each(_threads.begin(), _threads.end(), [] (std::thread &th) { th.join(); });
     
     //std::cout << "Enemy #" << _id << " destroyed" << std::endl;
 }
@@ -82,11 +82,9 @@ void Enemy::run()
     double y1 = fromNode->get()->getY();
     double x2 = toNode->get()->getX();
     double y2 = toNode->get()->getY();
-    u_lock.unlock();
 
     double distanceBetweenNodes = std::sqrt(std::pow((x1 - x2), 2) + (std::pow((y1 - y2), 2)));
 
-    u_lock.lock();
     while(!_atGoal && !_isDead)
     {
         u_lock.unlock();

@@ -17,14 +17,13 @@ Missile::Missile(int id, int x, int y, int speed, std::shared_ptr<Enemy> target)
 
 Missile::~Missile()
 {
-    for(auto &thread : _threads)
-    {
-        thread.join();
-    }
-    
+    // join the threads
+    std::for_each(_threads.begin(), _threads.end(), [](std::thread &th) { th.join(); });
+        
     //std::cout << "Destroying missile #" << _id << std::endl;
 }
 
+// start the thread for this missile
 void Missile::simulate()
 {
     // std::cout << "Simulating missile.. " << std::endl;

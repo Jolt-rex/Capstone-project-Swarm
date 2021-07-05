@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <thread>
 
+// Base class for Node, Enemy, Tower and Missile
 Entity::Entity(int id, double x, double y)
 {
     _id = id;

@@ -10,6 +10,7 @@
 
 class Model;
 
+// Enemy class inherits from Entity
 class Enemy : public Entity
 {
     public:
@@ -28,7 +29,6 @@ class Enemy : public Entity
 
         void simulate();
         void run();
-
         
     private:
         int _speed;

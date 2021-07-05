@@ -37,7 +37,7 @@ void RoutePlanner::resetModel()
 
 double RoutePlanner::calculateHValue(std::shared_ptr<Node> node)
 {
-    return node->Distance(_goal);
+    return node->distance(_goal);
 }
 
 // add neighbouring nodes to the open list
@@ -53,7 +53,7 @@ void RoutePlanner::addNeighbours(std::shared_ptr<Node> currentNode)
             if(!node->HasBeenVisited()) {
                 node->SetParent(currentNode);
                 node->SetHValue(calculateHValue(node)); 
-                node->SetGValue(node->Distance(currentNode) + currentNode->GetGValue());
+                node->SetGValue(node->distance(currentNode) + currentNode->GetGValue());
                 node->SetVisited(true);
                 _openList.emplace_back(node);
             }

@@ -23,7 +23,6 @@ enum GameState {
     kRunning, kWon, kLost
 };
 
-
 class Model
 {
     public:

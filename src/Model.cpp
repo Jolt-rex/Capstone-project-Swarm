@@ -66,8 +66,8 @@ Model::Model(GameRules &gameRules)
         }
 
         // cross link the nodes to each other using shared_ptr's
-        firstNode->AddConnected(secondNode);
-        secondNode->AddConnected(firstNode);
+        firstNode->addConnected(secondNode);
+        secondNode->addConnected(firstNode);
     }
 }
 
@@ -98,6 +98,9 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
     _missiles.back()->simulate();
  }
 
+// responsibility for finding a target / enemy moved from Tower to Model class to fix
+// a concurrency bug. This function iterates over the enemies and finds the first enemy
+// in the vector that has not already been targeted, and is in range of the Tower 
  std::shared_ptr<Enemy> Model::getTargetableEnemy(Tower &tower)
  {
      std::unique_lock<std::mutex> u_lock(_mutex);
@@ -125,7 +128,7 @@ void Model::moveEnemyToModel(std::shared_ptr<Enemy> &enemy)
  }
 
 // iterate over enemies and missiles and remove if dead / destroyed
-// also checks in an emeny is at the goal, and will change the game state
+// also checks if an emeny is at the goal, and will change the game state
  void Model::cleanup()
  {
      std::unique_lock<std::mutex> u_lock(_mutex);
