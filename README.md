@@ -29,3 +29,31 @@ To place a tower, click on the 'T' button to enter Tower Build mode. The left cl
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./swarm`.
+
+## Project Rubric
+
+1. The submission must compile and run.
+  * The repository has been cloned from GitHub and compiled using cmake and make. The code executable was able to be run.
+
+2. Loops, Functions, I/O
+  * The project contains several exampls of control structures, including for and while loops, and lambda functions.
+  * An xml file is parsed using the pugixml library, which is used to construct the vector of node objects and determine spawn points.
+  * The project uses the open cv library to handle mouse input, to construct towers as the co-ordinates of the mouse pointer.
+
+3. Object Oriented Programming
+  * The project is organised into classes, with methods and members to perform tasks.
+  * Data members are protected by using appropiate access specifiers.
+  * The Node, Enemy, Tower and Missile classes inherit from the Entity class, and use an initializer list to construct the base class.
+  * Classes are documented, with useful member and function name conventions to improve code clarity.
+  * Classes encapsulate relevant behaviour and state, with getter and setter functions used.
+
+4. Memory Management
+  * References are used in function declarations where possible.
+  * The objects Enemy and Missile are moved by their unique pointer to the Model object.
+  * Destructors are called to ensure completion of threads.
+  * Scope used in conjuction with smart pointers to ensure automatic destruction of dynamic memory.
+  * Smart pointers used: unique_ptr, shared_ptr and weak_ptr.
+
+5. Concurrency
+  * Multithreading has been used in the program's execution.
+  * Mutex's and locks have been used to prevent data races between multiple threads in the program.
