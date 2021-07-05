@@ -57,3 +57,7 @@ To place a tower, click on the 'T' button to enter Tower Build mode. The left cl
 5. Concurrency
   * Multithreading has been used in the program's execution.
   * Mutex's and locks have been used to prevent data races between multiple threads in the program.
+
+## Acknowldgement
+
+This project is based on several projects from the C++ Nano degree program to implement the A* search algorithm and using the opencv library.
